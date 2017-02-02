@@ -5,17 +5,44 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
+" Vundle
+filetype off              " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+  " let Vundle manage Vundle, required
+  Plugin 'VundleVim/Vundle.vim'
+  Plugin 'altercation/vim-colors-solarized'
+  Plugin 'vim-ruby/vim-ruby'
+  Plugin 'slim-template/vim-slim.git'
+  Plugin 'ctrlpvim/ctrlp.vim'
+call vundle#end()
+filetype plugin indent on
+
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
-set nobackup		" do not create backup files (filename~)
-set nowritebackup	" read buffer to original file
-set history=50		" keep 50 lines of command line history
-set ruler		" show the cursor position all the time
-set showcmd		" display incomplete commands
-set incsearch		" do incremental searching
-set textwidth:80
+set nobackup	    	" do not create backup files (filename~)
+set nowritebackup  	" read buffer to original file
+set history=50		  " keep 50 lines of command line history
+set ruler	        	" show the cursor position all the time
+set tabstop=2       " 2 spaces for indentation
+set smartindent     " indent new line 
+set shiftwidth=2
+set expandtab
+set cursorline      " highlight line the cursor is on
+set number          " show line numbers in files
+set showcmd	      	" display incomplete commands
+set incsearch	    	" do incremental searching
 set clipboard=unnamed   " use cliplboard anywhere
+
+" Include Rails directories
+set path+=app/**,lib/**,spec/**,config/**,db/**,script/**,elasticsearch/**
+
+" Add suffixes to jump to files
+set suffixesadd+=.rb
+set includeexpr=substitute(substitute(substitute(v:fname,'::','/','g'),'$','.rb',''),'\(\<\u\l\+\|\l\+\)\(\u\)','\l\1_\l\2','g')
 
 " Don't use Ex mode, use Q for formatting
 " map Q gq
@@ -27,7 +54,9 @@ set clipboard=unnamed   " use cliplboard anywhere
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
-  syntax on
+  syntax enable
+  set background=dark
+  colorscheme solarized
   set hlsearch
 endif
 
