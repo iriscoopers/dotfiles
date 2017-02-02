@@ -39,6 +39,7 @@ set showcmd	      	" display incomplete commands
 set incsearch	    	" do incremental searching
 set clipboard=unnamed   " use cliplboard anywhere
 set noswapfile      " do not create a .swp file
+set laststatus=2    " always show the status line
 
 " Include Rails directories
 set path+=app/**,lib/**,spec/**,config/**,db/**,script/**,elasticsearch/**
