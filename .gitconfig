@@ -1,0 +1,17 @@
+[user]
+	name = irisbune
+	email = irisbune@gmail.com
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
+[merge]
+  tool = opendiff
+  conflictstyle = diff3
+  prompt = false
+[mergetool]
+	keepBackup = false
+[push]
+	default = current
+[core]
+	editor = vim
