@@ -17,6 +17,8 @@ call vundle#begin()
   Plugin 'vim-ruby/vim-ruby'
   Plugin 'slim-template/vim-slim.git'
   Plugin 'ctrlpvim/ctrlp.vim'
+  Plugin 'vim-airline/vim-airline'
+  Plugin 'vim-airline/vim-airline-themes'
 call vundle#end()
 filetype plugin indent on
 
@@ -26,7 +28,7 @@ set backspace=indent,eol,start
 set nobackup	    	" do not create backup files (filename~)
 set nowritebackup  	" read buffer to original file
 set history=50		  " keep 50 lines of command line history
-set ruler	        	" show the cursor position all the time
+set ruler	        	" show the cursor:column position all the time
 set tabstop=2       " 2 spaces for indentation
 set smartindent     " indent new line 
 set shiftwidth=2
@@ -36,6 +38,7 @@ set number          " show line numbers in files
 set showcmd	      	" display incomplete commands
 set incsearch	    	" do incremental searching
 set clipboard=unnamed   " use cliplboard anywhere
+set noswapfile      " do not create a .swp file
 
 " Include Rails directories
 set path+=app/**,lib/**,spec/**,config/**,db/**,script/**,elasticsearch/**
@@ -43,6 +46,10 @@ set path+=app/**,lib/**,spec/**,config/**,db/**,script/**,elasticsearch/**
 " Add suffixes to jump to files
 set suffixesadd+=.rb
 set includeexpr=substitute(substitute(substitute(v:fname,'::','/','g'),'$','.rb',''),'\(\<\u\l\+\|\l\+\)\(\u\)','\l\1_\l\2','g')
+
+" CtrlP
+" ignore stuff that can't be opened, and generated files
+let g:fuzzy_ignore = "*.png;*.PNG;*.JPG;*.jpg;*.GIF;*.gif;vendor/**;coverage/**;tmp/**;rdoc/**"
 
 " Don't use Ex mode, use Q for formatting
 " map Q gq
@@ -67,3 +74,12 @@ if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
 		  \ | wincmd p | diffthis
 endif
+
+" Airline
+let g:airline_powerline_fonts = 1
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline_symbols.space = "\ua0"
+let g:airline_theme='molokai'
+  
