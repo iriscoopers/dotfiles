@@ -46,6 +46,11 @@ set clipboard=unnamed   " use cliplboard anywhere
 set noswapfile      " do not create a .swp file
 set laststatus=2    " always show the status line
 
+set winwidth=84
+set winheight=5
+set winminheight=5
+set winheight=999
+
 " Include Rails directories
 set path+=app/**,lib/**,spec/**,config/**,db/**,script/**,elasticsearch/**
 
@@ -100,4 +105,6 @@ let g:lightline = {
   \ }
 
 " Mappings
+
+" :noh with just ,h
 nmap <leader>h :nohlsearch<cr>
