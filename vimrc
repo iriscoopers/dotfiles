@@ -27,6 +27,7 @@ call vundle#begin()
   Plugin 'nelstrom/vim-textobj-rubyblock'
   Plugin 'tpope/vim-fugitive'
   Plugin 'tpope/vim-bundler'
+  Plugin 'christoomey/vim-tmux-navigator'
 call vundle#end()
 filetype plugin indent on
 
@@ -41,6 +42,7 @@ set shiftwidth=2
 set expandtab
 set cursorline      " highlight line the cursor is on
 set relativenumber  " show line numbers in files
+set number          " show current line number
 set showcmd	      	" display incomplete commands
 set clipboard=unnamed   " use cliplboard anywhere
 set noswapfile      " do not create a .swp file
@@ -50,6 +52,9 @@ set winwidth=84
 set winheight=5
 set winminheight=5
 set winheight=999
+
+set complete=.,b,u,]
+set wildmode=longest,list:longest
 
 " Include Rails directories
 set path+=app/**,lib/**,spec/**,config/**,db/**,script/**,elasticsearch/**
@@ -105,6 +110,9 @@ let g:lightline = {
   \ }
 
 " Mappings
+nmap <leader>r :source ~/.vimrc<cr>
+nmap <leader>ra :windo :source ~/.vimrc<cr>
+imap <Tab> <C-n>
 
 " :noh with just ,h
 nmap <leader>h :nohlsearch<cr>
