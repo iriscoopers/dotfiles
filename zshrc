@@ -53,8 +53,10 @@ ZSH_THEME="honukai"
 plugins=(git bundler osx rake ruby brew vundle)
 
 # User configuration
+export ES_HOME="/usr/local/Cellar/elasticsearch-1.7.5"
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_121/Contents/Home"
+export PATH="/Users/irisbune/.rbenv/shims:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$ES_HOME/bin:$JAVA_HOME"
 
-export PATH="/Users/irisbune/.rbenv/shims:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
