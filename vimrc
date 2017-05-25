@@ -28,6 +28,8 @@ call vundle#begin()
   Plugin 'tpope/vim-fugitive'
   Plugin 'tpope/vim-bundler'
   Plugin 'christoomey/vim-tmux-navigator'
+  Plugin 'tpope/vim-dispatch'
+  Plugin 'thoughtbot/vim-rspec'
 call vundle#end()
 filetype plugin indent on
 
@@ -109,10 +111,24 @@ let g:lightline = {
   \ 'subseparator': { 'left': '', 'right': '' }
   \ }
 
+" Git
+autocmd Filetype gitcommit setlocal spell textwidth=72
+
+" Rspec
+let g:rspec_command = "Dispatch bundle exec spring rspec {spec}"
+map <leader>t :call RunCurrentSpecFile()<cr>
+map <leader>s :call RunNearestSpec()<cr>
+map <leader>l :call RunLastSpec()<cr>
+map <leader>a :call RunAllSpecs()<cr>
+
+" Remove trailing whitespace
+autocmd BufWritePre * :%s/\s\+$//e
+
 " Mappings
 nmap <leader>r :source ~/.vimrc<cr>
 nmap <leader>ra :windo :source ~/.vimrc<cr>
 imap <Tab> <C-n>
+nnoremap <leader>e :e#<cr>
 
 " :noh with just ,h
 nmap <leader>h :nohlsearch<cr>
