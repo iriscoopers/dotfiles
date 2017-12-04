@@ -27,9 +27,14 @@ call vundle#begin()
   Plugin 'nelstrom/vim-textobj-rubyblock'
   Plugin 'tpope/vim-fugitive'
   Plugin 'tpope/vim-bundler'
-  Plugin 'christoomey/vim-tmux-navigator'
-  Plugin 'tpope/vim-dispatch'
+  Plugin 'tpope/vim-rails'
+  Plugin 'tpope/vim-surround'
   Plugin 'thoughtbot/vim-rspec'
+  Plugin 'christoomey/vim-tmux-navigator'
+  Plugin 'christoomey/vim-tmux-runner'
+  Plugin 'leafgarland/typescript-vim'
+  Plugin 'pangloss/vim-javascript'
+  Plugin 'fatih/vim-go'
 call vundle#end()
 filetype plugin indent on
 
@@ -50,10 +55,8 @@ set clipboard=unnamed   " use cliplboard anywhere
 set noswapfile      " do not create a .swp file
 set laststatus=2    " always show the status line
 
-set winwidth=84
-set winheight=5
-set winminheight=5
-set winheight=999
+" automatically rebalance windows on vim resize
+autocmd VimResized * :wincmd =
 
 set complete=.,b,u,]
 set wildmode=longest,list:longest
@@ -78,7 +81,7 @@ set splitright
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
   syntax enable
-  set background=dark
+  set background=light
   colorscheme solarized
   set hlsearch
   set incsearch	    	" do incremental searching
@@ -127,8 +130,17 @@ autocmd BufWritePre * :%s/\s\+$//e
 " Mappings
 nmap <leader>r :source ~/.vimrc<cr>
 nmap <leader>ra :windo :source ~/.vimrc<cr>
+nmap <leader>x :Explore<cr>
 imap <Tab> <C-n>
-nnoremap <leader>e :e#<cr>
+nnoremap <leader>e :e#<cr> " Open previously edited file
 
 " :noh with just ,h
 nmap <leader>h :nohlsearch<cr>
+
+" Vim Tmux Runner
+nnoremap <leader>ap :VtrAttachToPane<cr>
+nnoremap <leader>sc :VtrSendCommand
+nnoremap <leader>fr :VtrFocusRunner<cr>
+
+" Golang "
+let g:go_fmt_command = "goimports"
