@@ -72,6 +72,12 @@ set includeexpr=substitute(substitute(substitute(v:fname,'::','/','g'),'$','.rb'
 " ignore stuff that can't be opened, and generated files
 let g:fuzzy_ignore = "*.png;*.PNG;*.JPG;*.jpg;*.GIF;*.gif;vendor/**;coverage/**;tmp/**;rdoc/**"
 
+" Sane Ignore For ctrlp
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\.git$\|\.hg$\|\.git$\|public\/images\|public\/system\|data\|log\|tmp$',
+  \ 'file': '\.exe$\|\.so$\|\.dat$'
+  \ }
+
 " Panes
 " Open new panes on the right/bottom
 set splitbelow
@@ -118,7 +124,7 @@ let g:lightline = {
 autocmd Filetype gitcommit setlocal spell textwidth=72
 
 " Rspec
-let g:rspec_command = "Dispatch bundle exec spring rspec {spec}"
+let g:rspec_command = "VtrSendCommandToRunner be spring rspec {spec}"
 map <leader>t :call RunCurrentSpecFile()<cr>
 map <leader>s :call RunNearestSpec()<cr>
 map <leader>l :call RunLastSpec()<cr>
@@ -138,9 +144,25 @@ nnoremap <leader>e :e#<cr> " Open previously edited file
 nmap <leader>h :nohlsearch<cr>
 
 " Vim Tmux Runner
+"         Mapping      |   Command
+"        -----------------------------
+"        <leader>rr   |   VtrResizeRunner<cr>
+"        <leader>ror  |   VtrReorientRunner<cr>
+"        <leader>sc   |   VtrSendCommandToRunner<cr>
+"        <leader>sl   |   VtrSendLinesToRunner<cr>
+"        <leader>or   |   VtrOpenRunner<cr>
+"        <leader>kr   |   VtrKillRunner<cr>
+"        <leader>fr   |   VtrFocusRunner<cr>
+"        <leader>dr   |   VtrDetachRunner<cr>
+"        <leader>ar   |   VtrReattachRunner<cr>
+"        <leader>cr   |   VtrClearRunner<cr>
+"        <leader>fc   |   VtrFlushCommand<cr>
+let g:VtrUseVtrMaps = 1
 nnoremap <leader>ap :VtrAttachToPane<cr>
-nnoremap <leader>sc :VtrSendCommand
-nnoremap <leader>fr :VtrFocusRunner<cr>
+nnoremap <leader>sc :VtrSendCommandToRunner<cr>
+nnoremap <leader>fc :VtrFlushCommand<cr>
+nnoremap <leader>ra :VtrReattachRunner<cr>
+nnoremap <leader>nr :VtrOpenRunner {'orientation': 'h', 'percentage': 30}<cr>
 
 " Golang "
 let g:go_fmt_command = "goimports"
