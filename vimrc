@@ -17,9 +17,9 @@ call vundle#begin()
   Plugin 'altercation/vim-colors-solarized'
   Plugin 'vim-ruby/vim-ruby'
   Plugin 'slim-template/vim-slim.git'
-  Plugin 'ctrlpvim/ctrlp.vim'
   Plugin 'itchyny/lightline.vim'
-  Plugin 'jasoncodes/ctrlp-modified.vim'
+  Plugin 'junegunn/fzf'
+  Plugin 'junegunn/fzf.vim'
   Plugin 'beautify-web/js-beautify'
   Plugin 'kchmck/vim-coffee-script'
   Plugin 'vim-scripts/matchit.zip'
@@ -54,6 +54,7 @@ set showcmd	      	" display incomplete commands
 set clipboard=unnamed   " use cliplboard anywhere
 set noswapfile      " do not create a .swp file
 set laststatus=2    " always show the status line
+set rtp+=/usr/local/opt/fzf
 
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =
@@ -67,16 +68,6 @@ set path+=app/**,lib/**,spec/**,config/**,db/**,script/**,elasticsearch/**
 " Add suffixes to jump to files
 set suffixesadd+=.rb
 set includeexpr=substitute(substitute(substitute(v:fname,'::','/','g'),'$','.rb',''),'\(\<\u\l\+\|\l\+\)\(\u\)','\l\1_\l\2','g')
-
-" CtrlP
-" ignore stuff that can't be opened, and generated files
-let g:fuzzy_ignore = "*.png;*.PNG;*.JPG;*.jpg;*.GIF;*.gif;vendor/**;coverage/**;tmp/**;rdoc/**"
-
-" Sane Ignore For ctrlp
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\.git$\|\.hg$\|\.git$\|public\/images\|public\/system\|data\|log\|tmp$',
-  \ 'file': '\.exe$\|\.so$\|\.dat$'
-  \ }
 
 " Panes
 " Open new panes on the right/bottom
@@ -102,6 +93,9 @@ if &t_Co > 2 || has("gui_running")
   set noshowmode
 endif
 
+" Use js highlighting for json files
+autocmd BufNewFile,BufRead *.json set ft=javascript
+
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
 " Only define it when not defined already.
@@ -124,11 +118,23 @@ let g:lightline = {
 autocmd Filetype gitcommit setlocal spell textwidth=72
 
 " Rspec
-let g:rspec_command = "VtrSendCommandToRunner be spring rspec {spec}"
+let project = substitute(getcwd(), '^.*/', '', '')
+if project == "scoutest"
+  let g:rspec_command = "VtrSendCommandToRunner be rspec {spec}"
+else
+  let g:rspec_command = "VtrSendCommandToRunner be spring rspec {spec}"
+endif
+
 map <leader>t :call RunCurrentSpecFile()<cr>
 map <leader>s :call RunNearestSpec()<cr>
 map <leader>l :call RunLastSpec()<cr>
 map <leader>a :call RunAllSpecs()<cr>
+
+" Without Spring
+map <leader>ft :call RunCurrentSpecFile()<cr>
+map <leader>fs :call RunNearestSpec()<cr>
+map <leader>fl :call RunLastSpec()<cr>
+map <leader>fa :call RunAllSpecs()<cr>
 
 " Remove trailing whitespace
 autocmd BufWritePre * :%s/\s\+$//e
@@ -166,3 +172,20 @@ nnoremap <leader>nr :VtrOpenRunner {'orientation': 'h', 'percentage': 30}<cr>
 
 " Golang "
 let g:go_fmt_command = "goimports"
+
+" fzf with rg
+" --column: Show column number
+" --line-number: Show line number
+" --no-heading: Do not show file headings in results
+" --fixed-strings: Search term as a literal string
+" --ignore-case: Case insensitive search
+" --no-ignore: Do not respect .gitignore, etc...
+" --hidden: Search hidden files and folders
+" --follow: Follow symlinks
+" --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
+" --color: Search color options
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+
+nnoremap <C-p> :Files<CR>
+nnoremap <C-f> :Find<CR>
+nnoremap <C-b> :Buffers<CR>
