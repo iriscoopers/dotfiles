@@ -1,5 +1,4 @@
 " Vim configuration of Iris Bune
-" Last update: 27 December 2017
 
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
@@ -35,6 +34,7 @@ call vundle#begin()
   Plugin 'leafgarland/typescript-vim'
   Plugin 'pangloss/vim-javascript'
   Plugin 'fatih/vim-go'
+  Plugin 'posva/vim-vue'
 call vundle#end()
 filetype plugin indent on
 
@@ -55,6 +55,9 @@ set clipboard=unnamed   " use cliplboard anywhere
 set noswapfile      " do not create a .swp file
 set laststatus=2    " always show the status line
 set rtp+=/usr/local/opt/fzf
+
+" Highlight part of page when > 80 columns
+set colorcolumn=80
 
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =
@@ -167,11 +170,8 @@ let g:VtrUseVtrMaps = 1
 nnoremap <leader>ap :VtrAttachToPane<cr>
 nnoremap <leader>sc :VtrSendCommandToRunner<cr>
 nnoremap <leader>fc :VtrFlushCommand<cr>
-nnoremap <leader>ra :VtrReattachRunner<cr>
+nnoremap <leader>ar :VtrReattachRunner<cr>
 nnoremap <leader>nr :VtrOpenRunner {'orientation': 'h', 'percentage': 30}<cr>
-
-" Golang "
-let g:go_fmt_command = "goimports"
 
 " fzf with rg
 " --column: Show column number
@@ -184,8 +184,19 @@ let g:go_fmt_command = "goimports"
 " --follow: Follow symlinks
 " --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 " --color: Search color options
-command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+
+let g:rg_command = 'rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always" -g "*.{js,json,php,md,styl,pug,jade,html,config,py,cpp,c,go,hs,rb,conf,fa,lst,slim}" -g "!{.config,.git,node_modules,vendor,build,yarn.lock,*.sty,*.bst,*.coffee,dist,log,tmp}/*" '
+command! -bang -nargs=* Find call fzf#vim#grep(g:rg_command.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 
 nnoremap <C-p> :Files<CR>
-nnoremap <C-f> :Find<CR>
+nnoremap <C-f> :Find
 nnoremap <C-b> :Buffers<CR>
+
+" Ctags
+nnoremap <leader>tt :!Ctags -R<cr>
+
+" Rails
+nnoremap <leader>rc :Rails console<cr>
+
+" Golang
+let g:go_fmt_command = "goimports"

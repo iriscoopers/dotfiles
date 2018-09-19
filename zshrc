@@ -58,6 +58,7 @@ export ES_HOME="/usr/local/Cellar/elasticsearch-1.7.5"
 export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_121/Contents/Home"
 export PATH="$HOME/.rbenv/shims:$HOME/.rbenv/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$ES_HOME/bin:$JAVA_HOME"
 export PATH=$PATH:$HOME/sources/go/bin
+export PATH=$PATH:/Library/PostgreSQL/9.4/bin
 export GOPATH="$HOME/sources/go"
 
 # export MANPATH="/usr/local/man:$MANPATH"
