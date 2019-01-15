@@ -55,7 +55,7 @@ plugins=(git bundler osx rake ruby brew vundle)
 
 # User configuration
 export ES_HOME="/usr/local/Cellar/elasticsearch-1.7.5"
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_121/Contents/Home"
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_192.jdk/Contents/Home"
 export PATH="$HOME/.rbenv/shims:$HOME/.rbenv/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$ES_HOME/bin:$JAVA_HOME"
 export PATH=$PATH:$HOME/sources/go/bin
 export PATH=$PATH:/Library/PostgreSQL/9.4/bin
@@ -97,3 +97,5 @@ ctags=/usr/local/bin/ctags
 # --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
