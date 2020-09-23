@@ -175,6 +175,7 @@ nnoremap <leader>fc :VtrFlushCommand<cr>
 nnoremap <leader>ar :VtrReattachRunner<cr>
 nnoremap <leader>nr :VtrOpenRunner {'orientation': 'h', 'percentage': 30}<cr>
 
+let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.4, 'yoffset': 1, 'border': 'horizontal' } }
 " fzf with rg
 " --column: Show column number
 " --line-number: Show line number
