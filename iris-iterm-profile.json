@@ -420,11 +420,11 @@
   "Vertical Spacing" : 1,
   "Normal Font" : "Monaco 12",
   "Ansi 7 Color" : {
-    "Red Component" : 0.396078431372549,
+    "Red Component" : 0.928375244140625,
     "Color Space" : "sRGB",
-    "Blue Component" : 0.51372549019607838,
+    "Blue Component" : 0.82255610544234514,
     "Alpha Component" : 1,
-    "Green Component" : 0.4823529411764706
+    "Green Component" : 0.90366428324670778
   },
   "AWDS Tab Directory" : "",
   "AWDS Pane Option" : "No",
@@ -434,11 +434,11 @@
   "Option Key Sends" : 0,
   "Blink Allowed" : false,
   "Ansi 15 Color" : {
-    "Red Component" : 0.6320299319922924,
+    "Red Component" : 0.97647058823529409,
     "Color Space" : "sRGB",
-    "Blue Component" : 0.741668701171875,
+    "Blue Component" : 0.88235294117647056,
     "Alpha Component" : 1,
-    "Green Component" : 0.7124316960573196
+    "Green Component" : 0.95294117647058818
   },
   "Ansi 6 Color" : {
     "Red Component" : 0.16470588235294117,
