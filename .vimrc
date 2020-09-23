@@ -87,7 +87,7 @@ if &t_Co > 2 || has("gui_running")
   set incsearch	    	" do incremental searching
 
   " Powerline font settings
-  set guifont=Liberation\ Mono\ for\ Powerline:h18
+  set guifont=Literation\ Mono\ Powerline:h18
   let g:Powerline_symbols = 'fancy'
   set encoding=utf-8
   set fillchars+=stl:\ ,stlnc:\
@@ -110,11 +110,13 @@ endif
 " Lightline
 let g:lightline = {
   \ 'colorscheme': 'solarized',
-  \ 'component': {
-  \   'readonly': '%{&readonly?"":""}',
+  \ 'active': {
+  \   'left': [ [ 'mode', 'paste' ],
+  \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
   \ },
-  \ 'separator': { 'left': '', 'right': '' },
-  \ 'subseparator': { 'left': '', 'right': '' }
+  \ 'component_function': {
+  \   'gitbranch': 'FugitiveHead'
+  \ },
   \ }
 
 " Git
