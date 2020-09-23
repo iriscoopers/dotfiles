@@ -23,6 +23,7 @@ $ bundle
 * Get the dotfiles by `git clone git@github.com:irisbune/dotfiles.git`
 * Add symlinks to your home folder: `$ ln -s dotfiles/.* ~`
 * `brew install vim, tmux, fzf, ripgrep, ctags`
+* Run :PluginInstall in Vim
 * Install [Powerline fonts](https://github.com/powerline/fonts) `git clone https://github.com/powerline/fonts.git --depth=1`
 * Vim uses [FZF](https://github.com/junegunn/fzf) and [Ripgrep](https://github.com/BurntSushi/ripgrep)
 * Run `git ctags` and `git init` to use re-index Excurant Ctags [via git hooks](https://tbaggery.com/2011/08/08/effortless-ctags-with-git.html)
