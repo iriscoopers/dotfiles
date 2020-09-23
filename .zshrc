@@ -101,3 +101,4 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.g
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 eval "$(rbenv init -)"
+export PATH="/usr/local/opt/postgresql@11/bin:$PATH"
