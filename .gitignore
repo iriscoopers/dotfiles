@@ -6,3 +6,5 @@ npm-debug.log
 
 # Dev env
 tags
+*.tags
+yarn.lock
