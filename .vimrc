@@ -25,6 +25,7 @@ call vundle#begin()
   Plugin 'kana/vim-textobj-user'
   Plugin 'nelstrom/vim-textobj-rubyblock'
   Plugin 'tpope/vim-fugitive'
+  Plugin 'tpope/vim-rhubarb'
   Plugin 'tpope/vim-bundler'
   Plugin 'tpope/vim-rails'
   Plugin 'tpope/vim-surround'
