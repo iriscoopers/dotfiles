@@ -20,6 +20,8 @@
 	templatedir = ~/.git_template
 [alias]
 	ctags = !.git/hooks/ctags
+  cb = !git checkout $(git branch | fzf)
+  cba = !git checkout $(git branch -a | fzf)
 [commit]
 	gpgsign = true
 [gpg]

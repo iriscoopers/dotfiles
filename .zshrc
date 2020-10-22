@@ -87,6 +87,8 @@ export EDITOR='vim'
 alias zshconfig="mate ~/.zshrc"
 alias ohmyzsh="mate ~/.oh-my-zsh"
 alias mu="gl && bi && be rake db:migrate"
+alias gcb="git cb"
+alias gcba="git cba"
 
 export NVM_DIR="/Users/irisbune/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
