@@ -86,7 +86,7 @@ export EDITOR='vim'
 # Example aliases
 alias zshconfig="mate ~/.zshrc"
 alias ohmyzsh="mate ~/.oh-my-zsh"
-alias mu="gl && bi && be rake db:migrate"
+alias mu="gl && bundle _$(grep -A 1 "BUNDLED WITH" Gemfile.lock | grep -v "BUNDLED WITH" | awk '{$1=$1};1')_ install && be rake db:migrate"
 alias gcb="git cb"
 alias gcba="git cba"
 alias gclean="git cl"
