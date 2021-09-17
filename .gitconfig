@@ -23,6 +23,9 @@
   cb = !git checkout $(git branch | fzf)
   cba = !git checkout $(git branch -a | fzf)
   cl = ! git branch --merged | egrep -v '(^\\*|master)' | xargs git branch -d
+  pre = ! gh pr edit $(gh pr list | fzf | awk '{print $1}')
+  prv = ! gh pr view $(gh pr list | fzf | awk '{print $1}')
+  prvw = ! gh pr view $(gh pr list | fzf | awk '{print $1}') --web
 [commit]
 	gpgsign = true
 [gpg]
