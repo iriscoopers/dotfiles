@@ -82,14 +82,40 @@ export EDITOR='vim'
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
-# Example aliases
-alias zshconfig="mate ~/.zshrc"
-alias ohmyzsh="mate ~/.oh-my-zsh"
+
+alias sc="source ~/.zshrc"
+
+# Navigation
+alias one="cd ~/springest/one"
+alias datafix="cd ~/springest/scripts"
+alias stunt="cd ~/projects/stunt"
+alias dotfiles="cd ~/dotfiles"
+
+# Edit files
+alias zshrc="vim ~/.zshrc"
+alias ohmyzsh="vim ~/.oh-my-zsh"
+alias vimrc="vim ~/.vimrc"
+alias gitconfig="vim ~/.gitconfig"
+
+# Git
 alias mu="gl && bundle _$(grep -A 1 "BUNDLED WITH" Gemfile.lock | grep -v "BUNDLED WITH" | awk '{$1=$1};1')_ install && be rake db:migrate"
 alias gcb="git cb"
 alias gcba="git cba"
 alias gclean="git cl"
+
+# Github PRs
+# $1 = action
+# $2 = flag
+# $3 = search
+gprs() {
+  zparseopts -E -A opts a: s: f:
+
+  gh pr $opts[-a] $(gfzf $opts[-s]) $opts[-f]
+}
+
+gfzf() {
+  gh pr list -S $1 | fzf | awk '{print $1}'
+}
 
 export NVM_DIR="/Users/irisbune/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
