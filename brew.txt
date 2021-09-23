@@ -1,0 +1,6 @@
+rbenv
+vim
+tmux
+fzf
+ripgrep
+ctags
