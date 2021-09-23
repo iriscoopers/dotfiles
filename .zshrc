@@ -98,7 +98,7 @@ alias vimrc="vim ~/.vimrc"
 alias gitconfig="vim ~/.gitconfig"
 
 # Git
-alias mu="gl && bundle _$(grep -A 1 "BUNDLED WITH" Gemfile.lock | grep -v "BUNDLED WITH" | awk '{$1=$1};1')_ install && be rake db:migrate"
+alias gmu="gl && bundle _$(grep -A 1 "BUNDLED WITH" Gemfile.lock | grep -v "BUNDLED WITH" | awk '{$1=$1};1')_ install && be rake db:migrate"
 alias gcb="git cb"
 alias gcba="git cba"
 alias gclean="git cl"
