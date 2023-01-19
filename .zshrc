@@ -1,6 +1,6 @@
-ZSH_DISABLE_COMPFIX=true
+# ZSH_DISABLE_COMPFIX=true
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/iriskuipers/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -54,23 +54,17 @@ ZSH_THEME="miloshadzic"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git bundler macos rake ruby brew vundle)
 
-# User configuration
-export ES_HOME="/usr/local/Cellar/elasticsearch-1.7.5"
-export JAVA_HOME="/usr/local/opt/openjdk"
-# export JAVA_HOME="/Library/Java/JavaVirtualMachines/temurin-19.jdk/Contents/Home"
-export PATH="$HOME/.rbenv/shims:$HOME/.rbenv/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$ES_HOME/bin:$JAVA_HOME"
-export PATH=$PATH:$HOME/sources/go/bin
-export PATH=$PATH:/Library/PostgreSQL/9.4/bin
-export GOPATH="$HOME/sources/go"
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
 source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
+#if [[ -n $SSH_CONNECTION ]]; then
+#  export EDITOR='vim'
+#else
+#  export EDITOR='mvim'
+#fi
 export EDITOR='vim'
 
 # Compilation flags
@@ -91,17 +85,19 @@ alias stunt="cd ~/projects/stunt"
 alias dotfiles="cd ~/dotfiles"
 alias tebi="cd ~/projects/tebi"
 alias tebis="cd ~/projects/tebi_scripts"
-alias stu="vim ~/standup.md"
-alias fb="vim ~/feedback.md"
 
 # Edit files
 alias zshrc="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 alias vimrc="vim ~/.vimrc"
 alias gitconfig="vim ~/.gitconfig"
+alias stu="vim ~/standup.md"
+alias fb="vim ~/feedback.md"
 
 # Git
-alias gmu="gl && if [ -f Gemfile.lock ]; then bundle _$(grep -A 1 "BUNDLED WITH" Gemfile.lock | grep -v "BUNDLED WITH" | awk '{$1=$1};1')_ install && be rake db:migrate; fi && if [ -f yarn.lock ]; then yarn; fi"
+# git pull master ruby
+alias gmur="gl && if [ -f Gemfile.lock ]; then bundle _$(grep -A 1 "BUNDLED WITH" Gemfile.lock | grep -v "BUNDLED WITH" | awk '{$1=$1};1')_ install && be rake db:migrate; fi && if [ -f yarn.lock ]; then yarn; fi"
+alias gmuk="ggpull && srest"
 alias gcb="git cb"
 alias gcba="git cba"
 alias gclean="git cl"
@@ -111,8 +107,21 @@ alias gclean="git cl"
 #alias connect_st="backend && AWS_PROFILE=studytube ~/studytube/connect.sh"
 
 # Docker
-alias srest="./gradlew :server:builddockerimage && docker-compose up"
+alias srest="./gradlew :server:builddockerimage && :backoffice:builddockerimage && docker-compose up"
 #
+
+# Ruby
+# Automatically load rbenv
+eval "$(rbenv init -)"
+
+#Postgresql
+export GPG_TTY=$(tty)
+
+#export NVM_DIR="$HOME/.nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+### Tools
 # Tmuxinator
 alias mux=tmuxinator
 
@@ -140,32 +149,6 @@ ctags=/usr/local/bin/ctags
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-
-# Rbenv
-eval export PATH="/Users/irisbune/.rbenv/shims:${PATH}"
-command rbenv rehash 2>/dev/null
-rbenv() {
-  local command
-  command="$1"
-  if [ "$#" -gt 0 ]; then
-    shift
-  fi
-
-  case "$command" in
-  rehash|shell)
-    eval "$(rbenv "sh-$command" "$@")";;
-  *)
-    command rbenv "$command" "$@";;
-  esac
-}
-eval "$(rbenv init -)"
-
-#Postgresql
-export PATH="/usr/local/opt/postgresql@11/bin:$PATH"
-export GPG_TTY=$(tty)
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-eval "$(rbenv init -)"
+# PATH configuration
+export JAVA_HOME=/Applications/Android\ Studio.app/Contents/jre/Contents/Home
+export PATH="${JAVA_HOME}/bin/:${PATH}"
