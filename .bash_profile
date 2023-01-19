@@ -1,5 +1,5 @@
 export EDITOR=/usr/bin/vim
-eval export PATH="/Users/irisbune/.rbenv/shims:${PATH}"
+eval export PATH="~/.rbenv/shims:${PATH}"
 export RBENV_SHELL=bash
 source '/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.bash'
 command rbenv rehash 2>/dev/null
