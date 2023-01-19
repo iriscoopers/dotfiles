@@ -17,6 +17,7 @@ call vundle#begin()
   Plugin 'vim-ruby/vim-ruby'
   Plugin 'slim-template/vim-slim.git'
   Plugin 'itchyny/lightline.vim'
+  Plugin 'edkolev/tmuxline.vim'
   Plugin 'junegunn/fzf'
   Plugin 'junegunn/fzf.vim'
   Plugin 'beautify-web/js-beautify'
@@ -25,6 +26,7 @@ call vundle#begin()
   Plugin 'kana/vim-textobj-user'
   Plugin 'nelstrom/vim-textobj-rubyblock'
   Plugin 'tpope/vim-fugitive'
+  Plugin 'shumphrey/fugitive-gitlab.vim'
   Plugin 'tpope/vim-rhubarb'
   Plugin 'tpope/vim-bundler'
   Plugin 'tpope/vim-rails'
@@ -36,6 +38,8 @@ call vundle#begin()
   Plugin 'pangloss/vim-javascript'
   Plugin 'fatih/vim-go'
   Plugin 'posva/vim-vue'
+  Plugin 'yaegassy/coc-volar'
+  Plugin 'udalov/kotlin-vim'
 call vundle#end()
 filetype plugin indent on
 
@@ -77,6 +81,16 @@ set includeexpr=substitute(substitute(substitute(v:fname,'::','/','g'),'$','.rb'
 " Open new panes on the right/bottom
 set splitbelow
 set splitright
+
+" option name default optional
+" g:solarized_termcolors= 16 | 256
+" g:solarized_termtrans = 0 | 1
+" g:solarized_degrade = 0 | 1
+" g:solarized_bold = 1 | 0
+" g:solarized_underline = 1 | 0
+" g:solarized_italic = 1 | 0
+" g:solarized_contrast = "normal"| "high" or "low"
+" g:solarized_visibility= "normal"| "high" or "low"
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
@@ -176,7 +190,7 @@ nnoremap <leader>fc :VtrFlushCommand<cr>
 nnoremap <leader>ar :VtrReattachRunner<cr>
 nnoremap <leader>nr :VtrOpenRunner {'orientation': 'h', 'percentage': 30}<cr>
 
-let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.4, 'yoffset': 1, 'border': 'horizontal' } }
+let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.6, 'yoffset': 1, 'border': 'horizontal' } }
 " fzf with rg
 " --column: Show column number
 " --line-number: Show line number
@@ -189,7 +203,7 @@ let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.4, 'yoffset': 1, 'borde
 " --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 " --color: Search color options
 
-let g:rg_command = 'rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always" -g "*.{js,json,php,md,styl,pug,jade,html,config,py,cpp,c,go,hs,rb,conf,fa,lst,slim,coffee,sass,vue,xls,xlsx,csv}" -g "!{.config,.git,node_modules,vendor,build,yarn.lock,*.sty,*.bst,dist,log,tmp,public}/*" '
+let g:rg_command = 'rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always" -g "*.{js,json,php,md,styl,pug,jade,html,config,py,cpp,c,go,hs,rb,conf,fa,lst,slim,coffee,sass,vue,xls,xlsx,csv,rake,lib,kt}" -g "!{.config,.git,node_modules,vendor,build,yarn.lock,*.sty,*.bst,dist,log,tmp,public}/*" '
 command! -bang -nargs=* Find call fzf#vim#grep(g:rg_command.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 
 nnoremap <C-p> :Files<CR>
@@ -204,3 +218,6 @@ nnoremap <leader>rc :Rails console<cr>
 
 " Golang
 let g:go_fmt_command = "goimports"
+
+" Fugitive for Gitlab
+let g:fugitive_gitlab_domains = ['https://gitlab.com/tebi.co/tebi']
