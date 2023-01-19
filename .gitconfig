@@ -13,7 +13,7 @@
 	default = current
 [core]
 	editor = vim
-	excludesfile = /Users/iriskuipers/.gitignore
+	excludesfile = ~/.gitignore
 [init]
 	templatedir = ~/.git_template
 [alias]
@@ -24,9 +24,5 @@
   pre = ! gh pr edit $(gh pr list | fzf | awk '{print $1}')
   prv = ! gh pr view $(gh pr list | fzf | awk '{print $1}')
   prvw = ! gh pr view $(gh pr list | fzf | awk '{print $1}') --web
-[commit]
-	gpgsign = true
-[gpg]
-	program = gpg
 [pull]
 	rebase = false
