@@ -97,7 +97,8 @@ alias fb="vim ~/feedback.md"
 # Git
 # git pull master ruby
 alias gmur="gl && if [ -f Gemfile.lock ]; then bundle _$(grep -A 1 "BUNDLED WITH" Gemfile.lock | grep -v "BUNDLED WITH" | awk '{$1=$1};1')_ install && be rake db:migrate; fi && if [ -f yarn.lock ]; then yarn; fi"
-alias gmuk="ggpull && srest"
+# git pull and build Tebi
+alias gmut="ggpull && ./gradlew buildDockerImage"
 alias gcb="git cb"
 alias gcba="git cba"
 alias gclean="git cl"
@@ -107,8 +108,18 @@ alias gclean="git cl"
 #alias connect_st="backend && AWS_PROFILE=studytube ~/studytube/connect.sh"
 
 # Docker
-alias srest="./gradlew :server:builddockerimage && :backoffice:builddockerimage && docker-compose up"
-#
+alias dcup="docker-compose up"
+# Tebi
+alias sreb="./gradlew :server:builddockerimage"
+alias breb="./gradlew :backoffice:builddockerimage"
+alias ereb="./gradlew :ecomclient:builddockerimage"
+alias jsreb="./gradlew :jsapp:builddockerimage"
+alias reball="./gradlew buildDockerImage"
+alias srest="sreb && dcup"
+alias brest="breb && dcup"
+alias erest="ereb && dcup"
+alias jsrest="jsreb && dcup"
+alias restall="reball && dcup"
 
 # Ruby
 # Automatically load rbenv
