@@ -1,0 +1,8 @@
+ruby
+bundler
+rbenv
+vim
+tmux
+fzf
+ripgrep
+--HEAD universal-ctags/universal-ctags/universal-ctags
