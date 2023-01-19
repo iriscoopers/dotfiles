@@ -1,16 +1,14 @@
-[user]
-	name = irisbune
-	email = irisbune@gmail.com
 [filter "lfs"]
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
 	required = true
 [merge]
-  tool = opendiff
+  tool = vimdiff
   conflictstyle = diff3
   prompt = false
 [mergetool]
 	keepBackup = false
+  prompt = false
 [push]
 	default = current
 [core]
@@ -30,3 +28,5 @@
 	gpgsign = true
 [gpg]
 	program = gpg
+[pull]
+	rebase = false
