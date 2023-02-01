@@ -19,7 +19,7 @@ alias fb="vim ~/feedback.md"
 
 # Git
 # git pull master ruby
-alias gmu="gl && if [ -f Gemfile.lock ]; then bundle _$(grep -A 1 "BUNDLED WITH" Gemfile.lock | grep -v "BUNDLED WITH" | awk '{$1=$1};1')_ install && be rake db:migrate; fi && if [ -f yarn.lock ]; then yarn; fi"
+alias gmu="gl && if [ -f Gemfile.lock ]; then bundle grep -A 1 "BUNDLED WITH" Gemfile.lock | grep -v "BUNDLED WITH" | awk '{$1=$1};1' install; fi && be rake db:migrate && if [ -f yarn.lock ]; then yarn; fi"
 
 alias gcb="git cb"
 alias gcba="git cba"

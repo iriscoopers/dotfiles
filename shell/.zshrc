@@ -1,7 +1,4 @@
 source ~/.zsh/homebrew.plugin.zsh
-source ~/.zsh/aliases.plugin.zsh
-source ~/.zsh/github.plugin.zsh
-source ~/.zsh/vim.plugin.zsh
 
 # ZSH_DISABLE_COMPFIX=true
 # Path to your oh-my-zsh installation.
@@ -19,10 +16,14 @@ ZSH_THEME="miloshadzic"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git bundler macos rake ruby brew vundle tmuxinator docker-compose)
+plugins=(git bundler macos rake ruby brew vundle tmux tmuxinator docker-compose)
 
 # This needs to happen after the plugins declaration
 source $ZSH/oh-my-zsh.sh
+
+source ~/.zsh/aliases.plugin.zsh
+source ~/.zsh/github.plugin.zsh
+source ~/.zsh/vim.plugin.zsh
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
