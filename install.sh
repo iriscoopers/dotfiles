@@ -1,8 +1,8 @@
 #!/usr/bin/env zsh
 
-echo "Starting installation"
+echo "Starting installation\n\n"
 
-echo "Installing Ohmyzsh"
+echo "Installing Ohmyzsh\n\n"
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
@@ -12,18 +12,43 @@ if test ! $(which brew); then
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-echo "Installing packages"
+echo "Installing cask\n\n"
+brew install cask
 
-brew install ruby bundler rbenv vim tmux fzf ripgrep --HEAD universal-ctags/universal-ctags/universal-ctags
+echo "Installing packages\n\n"
 
-echo "Installing Vundle"
+brew install ruby rbenv vim tmux fzf ripgrep --HEAD universal-ctags/universal-ctags/universal-ctags
+
+rbenv rehash
+
+echo "What ruby version would you like to install?"
+echo "Available versions are:"
+rbenv install -l
+
+read rv
+
+print "Installing ruby version $rv \n\n"
+rbenv install $rv
+
+print "Installing bundler\n\n"
+gem install bundler
+
+print "Installing tmuxinator\n\n"
+gem install tmuxinator
+
+echo "Installing Vundle\n\n"
 
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
-echo "Installing Powerline fonts"
+echo "Installing Powerline fonts\n\n"
 git clone https://github.com/powerline/fonts.git --depth=1
+cd fonts && ./install.sh
 
-echo "Create symlinks"
+echo "Installed, now removing the fonts folder\n\n"
+cd ..
+rm -rf fonts
+
+echo "Create symlinks\n\n"
 
 FOLDERS="ack,git,shell,tmux,vim"
 
@@ -34,8 +59,7 @@ do
   ln -s ~/dotfiles/$folder/.* $HOME
 done
 
-ln -s ~/dotfiles/git/git_template ~/.git_template
+ln -s ~/dotfiles/git/git_template ~
 
-
-echo "Set global gitignore"
+echo "Set global gitignore\n\n"
 git config --global core.excludesfile ~/.gitignore

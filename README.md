@@ -1,18 +1,8 @@
 ### Notes
 
-* Get the dotfiles by `git clone git@github.com:irisbune/dotfiles.git`
-* Add symlinks to your home folder: `$ ln -s ~/dotfiles/.* ~ && ln -s dotfiles/git_template .git_template`
-* Rename the global gitignore file: `mv ~/dotfiles/gitignore_global ~/.gitignore
-
-#### Terminal
+* Clone the dotfiles
 * Install [iterm](https://www.iterm2.com/) manually. Import json profile.
-* Install [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh) `sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
-
-#### Homebrew
-* Install [Homebrew](https://brew.sh/.) manually
-* Run either or both:
-  * `xargs brew install < dotfiles/ruby.txt`
-  * `xargs brew install < dotfiles/kotlin.txt`
+* `chmod -x install.sh && ./install.sh`
 
 #### Ruby and Bundler
 
