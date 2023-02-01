@@ -61,5 +61,7 @@ done
 
 ln -s ~/dotfiles/git/git_template ~
 
-echo "Set global gitignore\n\n"
+echo "Setting global gitignore\n\n"
 git config --global core.excludesfile ~/.gitignore
+
+echo "====== DONE :) ======="
