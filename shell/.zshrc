@@ -1,3 +1,7 @@
+# Homebrew 
+## M1
+eval $(/opt/homebrew/bin/brew shellenv)
+
 # ZSH_DISABLE_COMPFIX=true
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -109,17 +113,6 @@ alias gclean="git cl"
 
 # Docker
 alias dcup="docker-compose up"
-# Tebi
-alias sreb="./gradlew :server:builddockerimage"
-alias breb="./gradlew :backoffice:builddockerimage"
-alias ereb="./gradlew :ecomclient:builddockerimage"
-alias jsreb="./gradlew :jsapp:builddockerimage"
-alias reball="./gradlew buildDockerImage"
-alias srest="sreb && dcup"
-alias brest="breb && dcup"
-alias erest="ereb && dcup"
-alias jsrest="jsreb && dcup"
-alias restall="reball && dcup"
 
 # Ruby
 # Automatically load rbenv
@@ -163,3 +156,4 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.g
 # PATH configuration
 export JAVA_HOME=/Applications/Android\ Studio.app/Contents/jre/Contents/Home
 export PATH="${JAVA_HOME}/bin/:${PATH}"
+export PATH=/opt/homebrew/bin:$PATH

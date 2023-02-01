@@ -1,5 +1,4 @@
 ruby
-bundler
 rbenv
 vim
 tmux
