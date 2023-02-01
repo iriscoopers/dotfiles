@@ -1,23 +1,23 @@
 [filter "lfs"]
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
-	required = true
+  clean = git-lfs clean %f
+  smudge = git-lfs smudge %f
+  required = true
 [merge]
   tool = vimdiff
   conflictstyle = diff3
   prompt = false
 [mergetool]
-	keepBackup = false
+  keepBackup = false
   prompt = false
 [push]
-	default = current
+  default = current
 [core]
-	editor = vim
-	excludesfile = /Users/iris/.gitignore
+  editor = vim
+  excludesfile = /Users/iris/.gitignore
 [init]
-	templatedir = ~/.git_template
+  templatedir = ~/.git_template
 [alias]
-	ctags = !.git/hooks/ctags
+  ctags = !.git/hooks/ctags
   cb = !git checkout $(git branch | fzf)
   cba = !git checkout $(git branch -a | fzf)
   cl = ! git branch --merged | egrep -v '(^\\*|master)' | xargs git branch -d
@@ -25,4 +25,4 @@
   prv = ! gh pr view $(gh pr list | fzf | awk '{print $1}')
   prvw = ! gh pr view $(gh pr list | fzf | awk '{print $1}') --web
 [pull]
-	rebase = false
+  rebase = false

@@ -1,4 +1,4 @@
-" Vim configuration of Iris Bune
+" Vim configuration
 
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
@@ -218,6 +218,3 @@ nnoremap <leader>rc :Rails console<cr>
 
 " Golang
 let g:go_fmt_command = "goimports"
-
-" Fugitive for Gitlab
-let g:fugitive_gitlab_domains = ['https://gitlab.com/tebi.co/tebi']
