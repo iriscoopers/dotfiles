@@ -2,7 +2,8 @@
 
 * Clone the dotfiles
 * Install [iterm](https://www.iterm2.com/) manually. Import json profile.
-* `chmod -x install.sh && ./install.sh`
+* `chmod u+x install.sh
+* Run `./install.sh`
 
 #### Vim
 

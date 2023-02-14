@@ -2,21 +2,54 @@
 
 echo "Starting installation\n\n"
 
-echo "Installing Ohmyzsh\n\n"
+echo "Create symlinks\n\n"
 
+FOLDERS="ack,shell,tmux,vim"
+
+DOT_FILES=$HOME/dotfiles
+
+for folder in $(echo $FOLDERS | sed "s/,/ /g") # Regex: replace ',' with a space
+do
+  ln -s ~/dotfiles/$folder/.* $HOME
+done
+
+# Copy and symlink git stuff
+cp ~/dotfiles/git/.gitconfig ~
+
+ln -s ~/dotfiles/git/.gitignore $HOME
+ln -s ~/dotfiles/git/git_template $HOME/.git_template
+
+echo "Setting global gitignore\n\n"
+git config --global core.excludesfile ~/.gitignore
+
+# Reinstantiate the shell to load changes
+exec $SHELL
+
+echo "Installing Ohmyzsh\n\n"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-# Check for Homebrew, install if we don't have it
-if test ! $(which brew); then
-    echo "Installing homebrew..."
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+# Revert the name change of our zshrc done by Ohmyzsh
+rm $HOME/.zshrc
+mv $HOME/.zshrc.pre-oh-my-zsh $HOME/.zshrc
+
+# Reinstantiate the shell to load changes
+exec $SHELL
+
+if [[ $(command -v brew) == "" ]]; then
+  echo "Installing homebrew..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+else
+  echo "Updating Homebrew"
+  brew update
 fi
 
 echo "Installing cask\n\n"
 brew install cask
 
-echo "Installing packages\n\n"
+# Reinstantiate the shell to load changes
+exec $SHELL
 
+echo "Installing packages\n\n"
 brew install ruby rbenv vim tmux fzf ripgrep --HEAD universal-ctags/universal-ctags/universal-ctags
 
 echo "What ruby version would you like to install?"
@@ -30,6 +63,9 @@ rbenv install $rv
 
 rbenv global $rv
 rbenv rehash
+
+# Reinstantiate the shell to load changes
+exec $SHELL
 
 print "Installing bundler\n\n"
 gem install bundler
@@ -49,24 +85,7 @@ echo "Installed, now removing the fonts folder\n\n"
 cd ..
 rm -rf fonts
 
-echo "Create symlinks\n\n"
-
-FOLDERS="ack,shell,tmux,vim"
-
-DOT_FILES=$HOME/dotfiles
-
-for folder in $(echo $FOLDERS | sed "s/,/ /g") # Regex: replace ',' with a space
-do
-  ln -s ~/dotfiles/$folder/.* $HOME
-done
-
-# Copy and symlink git stuff
-cp ~/dotfiles/git/.gitconfig ~
-
-ln -s ~/dotfiles/git/.gitignore ~
-ln -s ~/dotfiles/git/.git_template ~
-
-echo "Setting global gitignore\n\n"
-git config --global core.excludesfile ~/.gitignore
+# Reinstantiate the shell to load changes
+exec $SHELL
 
 echo "====== DONE :) ======="
