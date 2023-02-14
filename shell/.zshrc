@@ -88,5 +88,6 @@ export GPG_TTY=$(tty)
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 
 # PATH configuration
-export JAVA_HOME=/Applications/Android\ Studio.app/Contents/jre/Contents/Home
-export PATH="${JAVA_HOME}/bin/:${PATH}"
+# Ruby
+# Automatically load rbenv
+eval "$(rbenv init - zsh)"

@@ -19,8 +19,6 @@ echo "Installing packages\n\n"
 
 brew install ruby rbenv vim tmux fzf ripgrep --HEAD universal-ctags/universal-ctags/universal-ctags
 
-rbenv rehash
-
 echo "What ruby version would you like to install?"
 echo "Available versions are:"
 rbenv install -l
@@ -29,6 +27,9 @@ read rv
 
 print "Installing ruby version $rv \n\n"
 rbenv install $rv
+
+rbenv global $rv
+rbenv rehash
 
 print "Installing bundler\n\n"
 gem install bundler
@@ -50,16 +51,20 @@ rm -rf fonts
 
 echo "Create symlinks\n\n"
 
-FOLDERS="ack,git,shell,tmux,vim"
+FOLDERS="ack,shell,tmux,vim"
 
 DOT_FILES=$HOME/dotfiles
 
-for folder in $(echo $FOLDERS | sed "s/,/ /g")
+for folder in $(echo $FOLDERS | sed "s/,/ /g") # Regex: replace ',' with a space
 do
   ln -s ~/dotfiles/$folder/.* $HOME
 done
 
-ln -s ~/dotfiles/git/git_template ~
+# Copy and symlink git stuff
+cp ~/dotfiles/git/.gitconfig ~
+
+ln -s ~/dotfiles/git/.gitignore ~
+ln -s ~/dotfiles/git/.git_template ~
 
 echo "Setting global gitignore\n\n"
 git config --global core.excludesfile ~/.gitignore
