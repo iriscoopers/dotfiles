@@ -203,7 +203,7 @@ let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.6, 'yoffset': 1, 'borde
 " --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 " --color: Search color options
 
-let g:rg_command = 'rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always" -g "*.{js,json,php,md,styl,pug,jade,html,config,py,cpp,c,go,hs,rb,conf,fa,lst,slim,coffee,sass,vue,xls,xlsx,csv,rake,lib,kt}" -g "!{.config,.git,node_modules,vendor,build,yarn.lock,*.sty,*.bst,dist,log,tmp,public}/*" '
+let g:rg_command = 'rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always" -g "*.{js,json,haml,md,styl,pug,jade,html,config,py,cpp,c,go,hs,rb,conf,fa,lst,slim,coffee,sass,vue,xls,xlsx,csv,rake,lib,kt}" -g "!{.config,.git,node_modules,vendor,build,yarn.lock,*.sty,*.bst,dist,log,tmp,public}/*" '
 command! -bang -nargs=* Find call fzf#vim#grep(g:rg_command.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 
 nnoremap <C-p> :Files<CR>
