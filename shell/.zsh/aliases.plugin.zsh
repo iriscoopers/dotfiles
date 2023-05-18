@@ -14,13 +14,16 @@ alias zshrc="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 alias vimrc="vim ~/.vimrc"
 alias gitconfig="vim ~/.gitconfig"
-alias stu="vim ~/standup.md"
-alias fb="vim ~/feedback.md"
+alias notes="vim ~/projects/rompslomp_notes.md"
+alias til="vim ~/blog.md"
 
 # Git
 # git pull master ruby
-alias gmu="gl && if [ -f Gemfile.lock ]; then bundle grep -A 1 "BUNDLED WITH" Gemfile.lock | grep -v "BUNDLED WITH" | awk '{$1=$1};1' install; fi && be rake db:migrate && if [ -f yarn.lock ]; then yarn; fi"
+#alias gmu="gl && [ -f Gemfile.lock ] && bundle _$(grep -A 1 "BUNDLED WITH" Gemfile.lock | grep -v "BUNDLED WITH" | awk '{$1=$1};1')_ install && be rake db:migrate && [ -f yarn.lock ] && yarn"
 
 alias gcb="git cb"
 alias gcba="git cba"
 alias gclean="git cl"
+
+# Rompslomp
+#alias rgmu="gmu

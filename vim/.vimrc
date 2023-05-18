@@ -51,6 +51,7 @@ set ruler	        	" show the cursor:column position all the time
 set tabstop=2       " 2 spaces for indentation
 set smartindent     " indent new line
 set shiftwidth=2
+set textwidth=80    " Automatically mode to next line at 80 characters
 set expandtab
 set cursorline      " highlight line the cursor is on
 set relativenumber  " show line numbers in files
@@ -60,6 +61,7 @@ set clipboard=unnamed   " use cliplboard anywhere
 set noswapfile      " do not create a .swp file
 set laststatus=2    " always show the status line
 set rtp+=/usr/local/opt/fzf
+set ma              " Make buffer modifiable
 
 " Highlight part of page when > 80 columns
 set colorcolumn=80
@@ -139,7 +141,7 @@ autocmd Filetype gitcommit setlocal spell textwidth=72
 
 " Rspec
 let project = substitute(getcwd(), '^.*/', '', '')
-if project == "scoutest"
+if project == "rompslomp"
   let g:rspec_command = "VtrSendCommandToRunner be rspec {spec}"
 else
   let g:rspec_command = "VtrSendCommandToRunner be spring rspec {spec}"
@@ -203,11 +205,17 @@ let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.6, 'yoffset': 1, 'borde
 " --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 " --color: Search color options
 
-let g:rg_command = 'rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always" -g "*.{js,json,haml,md,styl,pug,jade,html,config,py,cpp,c,go,hs,rb,conf,fa,lst,slim,coffee,sass,vue,xls,xlsx,csv,rake,lib,kt}" -g "!{.config,.git,node_modules,vendor,build,yarn.lock,*.sty,*.bst,dist,log,tmp,public}/*" '
+let g:rg_command = 'rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always" -g "*.{js,json,haml,md,styl,pug,jade,html,config,py,cpp,c,go,hs,rb,conf,fa,lst,slim,coffee,scss,sass,vue,xls,xlsx,csv,rake,lib,kt}" -g "!{.config,.git,node_modules,vendor,build,yarn.lock,*.sty,*.bst,dist,log,tmp,public}/*" '
 command! -bang -nargs=* Find call fzf#vim#grep(g:rg_command.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 
+" Use rg instead of grep, see https://dev.to/iggredible/how-to-search-faster-in-vim-with-fzf-vim-36ko#other-searches
+set grepprg=rg\ --vimgrep\ --smart-case\ --follow
+
+" Search files
 nnoremap <C-p> :Files<CR>
+" Search in files
 nnoremap <C-f> :Find
+" Search buffers
 nnoremap <C-b> :Buffers<CR>
 
 " Ctags

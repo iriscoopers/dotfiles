@@ -88,6 +88,10 @@ export GPG_TTY=$(tty)
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 
 # PATH configuration
+export PATH="/opt/cloud66/bin:${PATH}"
+
 # Ruby
 # Automatically load rbenv
 eval "$(rbenv init - zsh)"
+
+source /Users/iriskuipers/.docker/init-zsh.sh || true # Added by Docker Desktop
