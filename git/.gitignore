@@ -12,4 +12,5 @@ script/connect.sh
 .env.local
 .env.test
 .git_template
-public/*
+gitlabat.tx
+#public/*

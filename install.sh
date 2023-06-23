@@ -4,7 +4,7 @@ echo "Starting installation\n\n"
 
 echo "Create symlinks\n\n"
 
-FOLDERS="ack,shell,tmux,vim"
+FOLDERS="ack,shell,tmux,vim,reattach-to-user-namespace"
 
 DOT_FILES=$HOME/dotfiles
 
