@@ -14,32 +14,32 @@ call vundle#begin()
   " let Vundle manage Vundle, required
   Plugin 'VundleVim/Vundle.vim'
   Plugin 'altercation/vim-colors-solarized'
-  Plugin 'vim-ruby/vim-ruby'
-  Plugin 'slim-template/vim-slim.git'
   Plugin 'itchyny/lightline.vim'
   Plugin 'edkolev/tmuxline.vim'
+  Plugin 'christoomey/vim-tmux-navigator'
+  Plugin 'christoomey/vim-tmux-runner'
   Plugin 'junegunn/fzf'
   Plugin 'junegunn/fzf.vim'
-  Plugin 'beautify-web/js-beautify'
-  Plugin 'kchmck/vim-coffee-script'
-  Plugin 'vim-scripts/matchit.zip'
   Plugin 'kana/vim-textobj-user'
   Plugin 'nelstrom/vim-textobj-rubyblock'
+  Plugin 'tpope/vim-surround'
+  Plugin 'vim-ruby/vim-ruby'
+  Plugin 'slim-template/vim-slim.git'
+  Plugin 'vim-scripts/matchit.zip'
   Plugin 'tpope/vim-fugitive'
   Plugin 'shumphrey/fugitive-gitlab.vim'
   Plugin 'tpope/vim-rhubarb'
   Plugin 'tpope/vim-bundler'
   Plugin 'tpope/vim-rails'
-  Plugin 'tpope/vim-surround'
   Plugin 'thoughtbot/vim-rspec'
-  Plugin 'christoomey/vim-tmux-navigator'
-  Plugin 'christoomey/vim-tmux-runner'
+  Plugin 'beautify-web/js-beautify'
+  Plugin 'kchmck/vim-coffee-script'
   Plugin 'leafgarland/typescript-vim'
   Plugin 'pangloss/vim-javascript'
-  Plugin 'fatih/vim-go'
+  Plugin 'maxmellon/vim-jsx-pretty'
   Plugin 'posva/vim-vue'
   Plugin 'yaegassy/coc-volar'
-  Plugin 'udalov/kotlin-vim'
+  Plugin 'github/copilot.vim'
 call vundle#end()
 filetype plugin indent on
 
@@ -165,7 +165,6 @@ autocmd BufWritePre * :%s/\s\+$//e
 nmap <leader>r :source ~/.vimrc<cr>
 nmap <leader>ra :windo :source ~/.vimrc<cr>
 nmap <leader>x :Explore<cr>
-imap <Tab> <C-n>
 nnoremap <leader>e :e#<cr> " Open previously edited file
 
 " :noh with just ,h
@@ -205,7 +204,7 @@ let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.6, 'yoffset': 1, 'borde
 " --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 " --color: Search color options
 
-let g:rg_command = 'rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always" -g "*.{js,json,haml,md,styl,pug,jade,html,config,py,cpp,c,go,hs,rb,conf,fa,lst,slim,coffee,scss,sass,vue,xls,xlsx,csv,rake,lib,kt}" -g "!{.config,.git,node_modules,vendor,build,yarn.lock,*.sty,*.bst,dist,log,tmp,public}/*" '
+let g:rg_command = 'rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always" -g "*.{js,json,haml,md,styl,pug,jade,html,config,py,cpp,c,go,hs,rb,conf,fa,lst,slim,coffee,scss,sass,vue,xls,xlsx,csv,rake,lib,kt}" -g "!{.config,.git,node_modules,vendor,build,yarn.lock,*.sty,*.bst,dist,log,tmp}/*" '
 command! -bang -nargs=* Find call fzf#vim#grep(g:rg_command.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 
 " Use rg instead of grep, see https://dev.to/iggredible/how-to-search-faster-in-vim-with-fzf-vim-36ko#other-searches
@@ -226,3 +225,9 @@ nnoremap <leader>rc :Rails console<cr>
 
 " Golang
 let g:go_fmt_command = "goimports"
+
+" Gitlab Rompslomp
+let g:fugitive_gitlab_domains = ['https://gitlab.rompslomp.nl']
+
+" Github Copilot
+

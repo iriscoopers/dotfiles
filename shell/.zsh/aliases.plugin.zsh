@@ -17,6 +17,15 @@ alias gitconfig="vim ~/.gitconfig"
 alias notes="vim ~/projects/rompslomp_notes.md"
 alias til="vim ~/blog.md"
 
+# Tmuxinator
+alias mux="tmuxinator"
+alias muxs="tmuxinator start"
+alias muxst="tmuxinator stop"
+alias muxl="tmuxinator list"
+alias muxo="tmuxinator open"
+alias muxe="tmuxinator edit"
+alias muxk="tmuxinator kill"
+
 # Git
 # git pull master ruby
 #alias gmu="gl && [ -f Gemfile.lock ] && bundle _$(grep -A 1 "BUNDLED WITH" Gemfile.lock | grep -v "BUNDLED WITH" | awk '{$1=$1};1')_ install && be rake db:migrate && [ -f yarn.lock ] && yarn"
@@ -24,6 +33,3 @@ alias til="vim ~/blog.md"
 alias gcb="git cb"
 alias gcba="git cba"
 alias gclean="git cl"
-
-# Rompslomp
-#alias rgmu="gmu

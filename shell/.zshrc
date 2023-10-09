@@ -96,3 +96,10 @@ export PATH="/opt/cloud66/bin:${PATH}"
 eval "$(rbenv init - zsh)"
 
 source /Users/iriskuipers/.docker/init-zsh.sh || true # Added by Docker Desktop
+export PATH="/opt/homebrew/opt/mysql-client@5.7/bin:$PATH"
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
+export PATH=$PATH:$JAVA_HOME
+
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
