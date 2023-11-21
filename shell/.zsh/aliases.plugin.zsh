@@ -10,12 +10,12 @@ alias stunt="cd ~/projects/stunt"
 alias dotfiles="cd ~/dotfiles"
 
 # Edit files
-alias zshrc="vim ~/.zshrc"
-alias ohmyzsh="vim ~/.oh-my-zsh"
-alias vimrc="vim ~/.vimrc"
-alias gitconfig="vim ~/.gitconfig"
-alias notes="vim ~/projects/rompslomp_notes.md"
-alias til="vim ~/blog.md"
+alias zshrc="nvim ~/.zshrc"
+alias ohmyzsh="nvim ~/.oh-my-zsh"
+alias vimrc="nvim ~/.vimrc"
+alias gitconfig="nvim ~/.gitconfig"
+alias notes="nvim ~/projects/rompslomp_notes.md"
+alias til="nvim ~/blog.md"
 
 # Tmuxinator
 alias mux="tmuxinator"

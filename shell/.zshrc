@@ -22,6 +22,7 @@ plugins=(git bundler macos rake ruby brew vundle docker-compose)
 source $ZSH/oh-my-zsh.sh
 
 source ~/.zsh/aliases.plugin.zsh
+source ~/.zsh/aliases_rompslomp.plugin.zsh
 source ~/.zsh/github.plugin.zsh
 source ~/.zsh/vim.plugin.zsh
 
