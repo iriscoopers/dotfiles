@@ -8,39 +8,56 @@ let mapleader = ','
 " Vundle
 filetype off              " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-  " let Vundle manage Vundle, required
-  Plugin 'VundleVim/Vundle.vim'
-  Plugin 'altercation/vim-colors-solarized'
-  Plugin 'itchyny/lightline.vim'
-  Plugin 'edkolev/tmuxline.vim'
-  Plugin 'christoomey/vim-tmux-navigator'
-  Plugin 'christoomey/vim-tmux-runner'
-  Plugin 'junegunn/fzf'
-  Plugin 'junegunn/fzf.vim'
-  Plugin 'kana/vim-textobj-user'
-  Plugin 'nelstrom/vim-textobj-rubyblock'
-  Plugin 'tpope/vim-surround'
-  Plugin 'vim-ruby/vim-ruby'
-  Plugin 'slim-template/vim-slim.git'
-  Plugin 'vim-scripts/matchit.zip'
-  Plugin 'tpope/vim-fugitive'
-  Plugin 'shumphrey/fugitive-gitlab.vim'
-  Plugin 'tpope/vim-rhubarb'
-  Plugin 'tpope/vim-bundler'
-  Plugin 'tpope/vim-rails'
-  Plugin 'thoughtbot/vim-rspec'
-  Plugin 'beautify-web/js-beautify'
-  Plugin 'kchmck/vim-coffee-script'
-  Plugin 'leafgarland/typescript-vim'
-  Plugin 'pangloss/vim-javascript'
-  Plugin 'maxmellon/vim-jsx-pretty'
-  Plugin 'posva/vim-vue'
-  Plugin 'yaegassy/coc-volar'
-  Plugin 'github/copilot.vim'
-call vundle#end()
+call plug#begin()
+" The default plugin directory will be as follows:
+"   - Vim (Linux/macOS): '~/.vim/plugged'
+"   - Vim (Windows): '~/vimfiles/plugged'
+"   - Neovim (Linux/macOS/Windows): stdpath('data') . '/plugged'
+" You can specify a custom plugin directory by passing it as the argument
+"   - e.g. `call plug#begin('~/.vim/plugged')`
+"   - Avoid using standard Vim directory names like 'plugin'
+
+" Make sure you use single quotes
+  " Style
+  Plug 'altercation/vim-colors-solarized'
+  Plug 'itchyny/lightline.vim'
+  Plug 'edkolev/tmuxline.vim'
+
+  " Editor
+  Plug 'christoomey/vim-tmux-navigator'
+  Plug 'christoomey/vim-tmux-runner'
+
+  Plug 'junegunn/fzf'
+  Plug 'junegunn/fzf.vim'
+  Plug 'kana/vim-textobj-user'
+  " Plug 'nelstrom/vim-textobj-rubyblock'
+  " Plug 'tpope/vim-surround'
+
+  " Language highlighting
+  " Plug 'vim-ruby/vim-ruby'
+
+  " Extending %
+  Plug 'vim-scripts/matchit.zip'
+  " Rails
+  Plug 'tpope/vim-fugitive'
+  Plug 'shumphrey/fugitive-gitlab.vim'
+  Plug 'tpope/vim-rhubarb'
+  Plug 'tpope/vim-bundler'
+  " Plug 'tpope/vim-rails'
+  Plug 'thoughtbot/vim-rspec'
+
+  " Javascript
+  Plug 'beautify-web/js-beautify'
+  Plug 'leafgarland/typescript-vim'
+  Plug 'pangloss/vim-javascript'
+  Plug 'maxmellon/vim-jsx-pretty'
+  " LSP in vim
+  Plug 'neovim/nvim-lspconfig'
+
+  " AI
+  Plug 'github/copilot.vim'
+call plug#end()
+
 filetype plugin indent on
 
 set backspace=indent,eol,start  " allow backspacing over everything in IM
@@ -108,7 +125,7 @@ if &t_Co > 2 || has("gui_running")
   let g:Powerline_symbols = 'fancy'
   set encoding=utf-8
   set fillchars+=stl:\ ,stlnc:\
-  set term=xterm-256color
+  "set term=xterm-256color
   set termencoding=utf-8
   set noshowmode
 endif
@@ -151,12 +168,6 @@ map <leader>t :call RunCurrentSpecFile()<cr>
 map <leader>s :call RunNearestSpec()<cr>
 map <leader>l :call RunLastSpec()<cr>
 map <leader>a :call RunAllSpecs()<cr>
-
-" Without Spring
-map <leader>ft :call RunCurrentSpecFile()<cr>
-map <leader>fs :call RunNearestSpec()<cr>
-map <leader>fl :call RunLastSpec()<cr>
-map <leader>fa :call RunAllSpecs()<cr>
 
 " Remove trailing whitespace
 autocmd BufWritePre * :%s/\s\+$//e
@@ -204,7 +215,11 @@ let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.6, 'yoffset': 1, 'borde
 " --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 " --color: Search color options
 
-let g:rg_command = 'rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always" -g "*.{js,json,haml,md,styl,pug,jade,html,config,py,cpp,c,go,hs,rb,conf,fa,lst,slim,coffee,scss,sass,vue,xls,xlsx,csv,rake,lib,kt}" -g "!{.config,.git,node_modules,vendor,build,yarn.lock,*.sty,*.bst,dist,log,tmp}/*" '
+let g:rg_command = '
+  \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
+  \ -g "*.{js,json,haml,md,styl,pug,jade,html,py,cpp,c,go,hs,rb,conf,fa,lst,slim,coffee,scss,sass,vue,xls,xlsx,csv,kt,yml}"
+  \ -g "{rake, config, lib, db, content}"
+  \ -g "!{.config,.git,node_modules,vendor,build,yarn.lock,*.sty,*.bst,dist,log,tmp,coverage}/*" '
 command! -bang -nargs=* Find call fzf#vim#grep(g:rg_command.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 
 " Use rg instead of grep, see https://dev.to/iggredible/how-to-search-faster-in-vim-with-fzf-vim-36ko#other-searches
