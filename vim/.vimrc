@@ -46,13 +46,16 @@ call plug#begin()
   " Plug 'tpope/vim-rails'
   Plug 'thoughtbot/vim-rspec'
 
+  Plug 'mfussenegger/nvim-dap' "debugging
+
   " Javascript
   Plug 'beautify-web/js-beautify'
   Plug 'leafgarland/typescript-vim'
   Plug 'pangloss/vim-javascript'
   Plug 'maxmellon/vim-jsx-pretty'
   " LSP in vim
-  Plug 'neovim/nvim-lspconfig'
+  "Plug 'neovim/nvim-lspconfig'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
   " AI
   Plug 'github/copilot.vim'

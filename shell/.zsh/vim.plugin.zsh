@@ -4,6 +4,6 @@
 #else
 #  export EDITOR='mvim'
 #fi
-export EDITOR='vim'
+export EDITOR='nvim'
 
 ctags=/usr/local/bin/ctags

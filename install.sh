@@ -4,7 +4,7 @@ echo "Starting installation\n\n"
 
 echo "Create symlinks\n\n"
 
-FOLDERS="ack,shell,tmux,vim,reattach-to-user-namespace"
+FOLDERS="ack,shell,tmux,vim"
 
 DOT_FILES=$HOME/dotfiles
 
@@ -12,6 +12,13 @@ for folder in $(echo $FOLDERS | sed "s/,/ /g") # Regex: replace ',' with a space
 do
   ln -s ~/dotfiles/$folder/.* $HOME
 done
+
+# Special handling for Neovim config
+# Ensure the .config/nvim directory exists
+mkdir -p $HOME/.config/nvim
+
+# Create symlink for Neovim config
+ln -s $DOT_FILES/config/nvim/init.vim $HOME/.config/nvim/init.vim
 
 # Copy and symlink git stuff
 cp ~/dotfiles/git/.gitconfig ~
@@ -73,9 +80,10 @@ gem install bundler
 print "Installing tmuxinator\n\n"
 gem install tmuxinator
 
-echo "Installing Vundle\n\n"
+echo "Installing vim-plug\n\n"
 
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 echo "Installing Powerline fonts\n\n"
 git clone https://github.com/powerline/fonts.git --depth=1
