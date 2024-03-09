@@ -5,8 +5,7 @@
 set nocompatible
 let mapleader = ','
 
-" Vundle
-filetype off              " required
+filetype off " required
 
 call plug#begin()
 " The default plugin directory will be as follows:
@@ -53,9 +52,14 @@ call plug#begin()
   Plug 'leafgarland/typescript-vim'
   Plug 'pangloss/vim-javascript'
   Plug 'maxmellon/vim-jsx-pretty'
+
   " LSP in vim
-  "Plug 'neovim/nvim-lspconfig'
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'L3MON4D3/LuaSnip'
+  Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v3.x'}
+  "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
   " AI
   Plug 'github/copilot.vim'

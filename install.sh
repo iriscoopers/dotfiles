@@ -57,7 +57,7 @@ brew install cask
 exec $SHELL
 
 echo "Installing packages\n\n"
-brew install ruby rbenv vim tmux fzf ripgrep --HEAD universal-ctags/universal-ctags/universal-ctags
+brew install ruby rbenv vim nvim tmux fzf ripgrep --HEAD universal-ctags/universal-ctags/universal-ctags
 
 echo "What ruby version would you like to install?"
 echo "Available versions are:"
