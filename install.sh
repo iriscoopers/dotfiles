@@ -2,7 +2,21 @@
 
 echo "Starting installation\n\n"
 
+echo "Installing Ohmyzsh\n\n"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+if [[ $(command -v brew) == "" ]]; then
+  echo "Installing homebrew..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+else
+  echo "Updating Homebrew"
+  brew update
+fi
+
+source $HOME/.zshrc
+
 echo "Create symlinks\n\n"
+rm $HOME/.zshrc
 
 FOLDERS="ack,shell,tmux,vim"
 
@@ -16,9 +30,11 @@ done
 # Special handling for Neovim config
 # Ensure the .config/nvim directory exists
 mkdir -p $HOME/.config/nvim
+mkdir -p $HOME/.config/nvim/lua
 
 # Create symlink for Neovim config
 ln -s $DOT_FILES/config/nvim/init.vim $HOME/.config/nvim/init.vim
+ln -s $DOT_FILES/config/nvim/lua/.* $HOME/.config/nvim/lua/
 
 # Copy and symlink git stuff
 cp ~/dotfiles/git/.gitconfig ~
@@ -29,35 +45,14 @@ ln -s ~/dotfiles/git/git_template $HOME/.git_template
 echo "Setting global gitignore\n\n"
 git config --global core.excludesfile ~/.gitignore
 
-# Reinstantiate the shell to load changes
-exec $SHELL
-
-echo "Installing Ohmyzsh\n\n"
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-# Revert the name change of our zshrc done by Ohmyzsh
-rm $HOME/.zshrc
-mv $HOME/.zshrc.pre-oh-my-zsh $HOME/.zshrc
-
-# Reinstantiate the shell to load changes
-exec $SHELL
-
-if [[ $(command -v brew) == "" ]]; then
-  echo "Installing homebrew..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-else
-  echo "Updating Homebrew"
-  brew update
-fi
-
 echo "Installing cask\n\n"
 brew install cask
 
-# Reinstantiate the shell to load changes
-exec $SHELL
-
 echo "Installing packages\n\n"
-brew install ruby rbenv vim tmux fzf ripgrep --HEAD universal-ctags/universal-ctags/universal-ctags
+brew install ruby rbenv vim nvim tmux fzf ripgrep --HEAD universal-ctags/universal-ctags/universal-ctags
+
+# Reinstantiate the shell to load changes
+source $HOME/.zshrc
 
 echo "What ruby version would you like to install?"
 echo "Available versions are:"
@@ -70,9 +65,6 @@ rbenv install $rv
 
 rbenv global $rv
 rbenv rehash
-
-# Reinstantiate the shell to load changes
-exec $SHELL
 
 print "Installing bundler\n\n"
 gem install bundler
@@ -93,7 +85,9 @@ echo "Installed, now removing the fonts folder\n\n"
 cd ..
 rm -rf fonts
 
+echo "============ Done installing ============"
+
 # Reinstantiate the shell to load changes
-exec $SHELL
+source $HOME/.zshrc
 
 echo "====== DONE :) ======="
