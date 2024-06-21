@@ -134,7 +134,6 @@ if &t_Co > 2 || has("gui_running")
   set fillchars+=stl:\ ,stlnc:\
   "set term=xterm-256color
   set termencoding=utf-8
-  set noshowmode
 endif
 
 " Use js highlighting for json files
