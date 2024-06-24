@@ -14,7 +14,14 @@ gfzf() {
 
 # $1 = db action; setup or migrate will become db:setup or db:migrate
 gmu() {
-  dbaction="db:$1"
+  zparseopts -E -A opts db:
 
-  gl && [ -f Gemfile.lock ] && bundle _$(grep -A 1 "BUNDLED WITH" Gemfile.lock | grep -v "BUNDLED WITH" | awk '{$1=$1};1')_ install && be rails $dbaction && [ -f yarn.lock ] && yarn
+  gl && [ -f Gemfile.lock ] && bundle _$(grep -A 1 "BUNDLED WITH" Gemfile.lock | grep -v "BUNDLED WITH" | awk '{$1=$1};1')_ install
+
+  # Check if -dbaction was provided and only run the rails db command if it was
+  if [[ -n ${opts[-db]} ]]; then
+    rails "db:${opts[-db]}"
+  fi
+
+  [ -f yarn.lock ] && yarn
 }
