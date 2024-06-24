@@ -22,7 +22,6 @@ plugins=(git bundler macos rake ruby brew vundle docker-compose)
 source $ZSH/oh-my-zsh.sh
 
 source ~/.zsh/aliases.plugin.zsh
-source ~/.zsh/aliases_rompslomp.plugin.zsh
 source ~/.zsh/github.plugin.zsh
 source ~/.zsh/vim.plugin.zsh
 
@@ -100,6 +99,7 @@ eval "$(rbenv init - zsh)"
 
 # source $HOME/.docker/init-zsh.sh || true # Added by Docker Desktop
 
+export PATH="/opt/homebrew/opt/mysql-client@5.7/bin:$PATH"
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
 export PATH=$PATH:$JAVA_HOME
 
@@ -109,5 +109,3 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
-
-source /Users/iriskuipers/.docker/init-zsh.sh || true # Added by Docker Desktop
