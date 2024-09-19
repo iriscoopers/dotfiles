@@ -18,22 +18,22 @@ call plug#begin()
 
 " Make sure you use single quotes
   " Style
-  Plug 'altercation/vim-colors-solarized'
   Plug 'itchyny/lightline.vim'
   Plug 'edkolev/tmuxline.vim'
 
   " Editor
+  Plug 'rose-pine/neovim', { 'as': 'rose-pine' }
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'christoomey/vim-tmux-runner'
 
-  Plug 'junegunn/fzf'
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
   Plug 'kana/vim-textobj-user'
-  " Plug 'nelstrom/vim-textobj-rubyblock'
+  Plug 'nelstrom/vim-textobj-rubyblock'
   " Plug 'tpope/vim-surround'
 
   " Language highlighting
-  " Plug 'vim-ruby/vim-ruby'
+  Plug 'vim-ruby/vim-ruby'
 
   " Extending %
   Plug 'vim-scripts/matchit.zip'
@@ -42,7 +42,7 @@ call plug#begin()
   Plug 'shumphrey/fugitive-gitlab.vim'
   Plug 'tpope/vim-rhubarb'
   Plug 'tpope/vim-bundler'
-  " Plug 'tpope/vim-rails'
+  Plug 'tpope/vim-rails'
   Plug 'thoughtbot/vim-rspec'
 
   Plug 'mfussenegger/nvim-dap' "debugging
@@ -84,7 +84,7 @@ set showcmd	      	" display incomplete commands
 set clipboard=unnamed   " use cliplboard anywhere
 set noswapfile      " do not create a .swp file
 set laststatus=2    " always show the status line
-set rtp+=/usr/local/opt/fzf
+set rtp+=/opt/homebrew/opt/fzf
 set ma              " Make buffer modifiable
 
 " Highlight part of page when > 80 columns
@@ -108,34 +108,28 @@ set includeexpr=substitute(substitute(substitute(v:fname,'::','/','g'),'$','.rb'
 set splitbelow
 set splitright
 
-" option name default optional
-" g:solarized_termcolors= 16 | 256
-" g:solarized_termtrans = 0 | 1
-" g:solarized_degrade = 0 | 1
-" g:solarized_bold = 1 | 0
-" g:solarized_underline = 1 | 0
-" g:solarized_italic = 1 | 0
-" g:solarized_contrast = "normal"| "high" or "low"
-" g:solarized_visibility= "normal"| "high" or "low"
+" Set the Rose Pine colorscheme
+set termguicolors
+syntax enable
+colorscheme rose-pine
 
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-if &t_Co > 2 || has("gui_running")
-  syntax enable
-  set background=light
-  colorscheme solarized
-  set hlsearch
-  set incsearch	    	" do incremental searching
-
-  " Powerline font settings
-  set guifont=Literation\ Mono\ Powerline:h18
-  let g:Powerline_symbols = 'fancy'
-  set encoding=utf-8
-  set fillchars+=stl:\ ,stlnc:\
-  "set term=xterm-256color
-  set termencoding=utf-8
-  set noshowmode
-endif
+"" Switch syntax highlighting on, when the terminal has colors
+"" Also switch on highlighting the last used search pattern.
+"if &t_Co > 2 || has("gui_running")
+"  syntax enable
+"  set background=light
+"  colorscheme solarized
+"  set hlsearch
+"  set incsearch	    	" do incremental searching
+"
+"  " Powerline font settings
+"  set guifont=Literation\ Mono\ Powerline:h18
+"  let g:Powerline_symbols = 'fancy'
+"  set encoding=utf-8
+"  set fillchars+=stl:\ ,stlnc:\
+"  "set term=xterm-256color
+"  set termencoding=utf-8
+"endif
 
 " Use js highlighting for json files
 autocmd BufNewFile,BufRead *.json set ft=javascript
@@ -252,4 +246,3 @@ let g:go_fmt_command = "goimports"
 let g:fugitive_gitlab_domains = ['https://gitlab.rompslomp.nl']
 
 " Github Copilot
-

@@ -1,2 +1,13 @@
 #!/bin/sh
 .git/hooks/ctags >/dev/null 2>&1 &
+
+# Check if the file named "'" exists and remove it
+FILE="'"
+if [ -f "$FILE" ]; then
+  echo "Removing file named '$FILE'"
+  git rm --cached "$FILE"   # Remove the file from the index (staged changes)
+  rm "$FILE"                # Optionally remove the file from the file system
+fi
+
+# Continue with the commit
+exit 0

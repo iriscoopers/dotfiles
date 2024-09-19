@@ -23,6 +23,7 @@ source $ZSH/oh-my-zsh.sh
 
 source ~/.zsh/aliases.plugin.zsh
 source ~/.zsh/github.plugin.zsh
+source ~/.zsh/gitlab.plugin.zsh
 source ~/.zsh/vim.plugin.zsh
 
 # Uncomment the following line to use case-sensitive completion.
