@@ -8,15 +8,14 @@ vim.opt.showmode = false
 -- Initialize vim-plug
 vim.cmd('source ~/.config/nvim/plugins.vim')
 
--- Require your plugins setup
-require("plugins")
-
--- Key mappings
-vim.api.nvim_set_keymap('n', '<leader>r', ':source ~/.config/nvim/init.lua<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>ra', ':windo :source ~/.config/nvim/init.lua<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>x', ':Explore<CR>', { noremap = true, silent = true }) -- file explorer
-vim.api.nvim_set_keymap('i', '<C-c>', '<Esc>`^', { noremap = true }) -- Get back to normal mode
-vim.api.nvim_set_keymap('n', '<leader>h', ':nohlsearch<CR>', { noremap = true, silent = true })
+-- Include configurations
+require('theme')
+require('mappings')
+require('telescope_config')
+require('treesitter_config')
+require('cmp_config')
+require('lsp')
+require('copilot_chat')
 
 -- General settings
 vim.o.backspace = "indent,eol,start"     -- Allow backspacing over everything in insert mode
@@ -40,10 +39,13 @@ vim.o.complete = ".,b,u,]"               -- Command-line completion settings
 vim.o.wildmode = "longest,list:longest"  -- Command-line completion mode
 vim.o.splitbelow = true                  -- Open new horizontal pane to the bottom
 vim.o.splitright = true                  -- Open new vertical pane to the right
-vim.opt.clipboard = unnamedplus          -- Use the clipboard for all operations
+vim.opt.clipboard = 'unnamedplus'        -- Use the clipboard for all operations
 vim.opt.inccommand = 'split'             -- Preview substitutions live, as you type!
 vim.opt.colorcolumn = "100"              -- Highlight column at 100 characters
 vim.opt.rtp:append("/usr/local/opt/fzf") -- Add fzf to runtime path
+vim.opt.foldmethod = "expr"              -- Fold based on indent level
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- Use treesitter for folding
+vim.opt.foldlevel = 99                   -- Open all folds by default
 
 -- Autocommands
 -- Automatically rebalance windows on vim resize

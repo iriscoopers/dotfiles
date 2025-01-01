@@ -35,7 +35,7 @@ mkdir -p $HOME/.config/nvim/lua
 # Create symlink for Neovim config
 ln -s $DOT_FILES/config/nvim/init.lua $HOME/.config/nvim/init.lua
 ln -s $DOT_FILES/config/nvim/plugins.vim $HOME/.config/nvim/plugins.vim
-ln -s $DOT_FILES/config/nvim/lua/.* $HOME/.config/nvim/lua/
+ln -s $DOT_FILES/config/nvim/lua/* $HOME/.config/nvim/lua/
 
 # Copy and symlink git stuff
 cp ~/dotfiles/git/.gitconfig ~

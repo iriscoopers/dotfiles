@@ -20,7 +20,6 @@ call plug#begin()
   " Style
   Plug 'altercation/vim-colors-solarized'
   Plug 'itchyny/lightline.vim'
-  Plug 'edkolev/tmuxline.vim'
 
   " Editor
   Plug 'christoomey/vim-tmux-navigator'
@@ -81,7 +80,7 @@ set cursorline      " highlight line the cursor is on
 set relativenumber  " show line numbers in files
 set number          " show current line number
 set showcmd	      	" display incomplete commands
-set clipboard=unnamed   " use cliplboard anywhere
+" set clipboard=unnamed   " use cliplboard anywhere
 set noswapfile      " do not create a .swp file
 set laststatus=2    " always show the status line
 set rtp+=/usr/local/opt/fzf
