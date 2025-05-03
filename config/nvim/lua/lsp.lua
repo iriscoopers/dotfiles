@@ -59,6 +59,7 @@ local on_attach = function(client, bufnr)
   -- Hover Actions
   -- Shows hover information for the symbol under the cursor.
   buf_set_keymap(bufnr, 'n', '<leader>ha', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap(bufnr, 'n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
 
   -- Go to Type Definition
   -- Navigate to the type definition of the symbol under the cursor.
@@ -70,15 +71,43 @@ local on_attach = function(client, bufnr)
   -- Rename Symbol
   -- Rename all references to the symbol under the cursor.
   buf_set_keymap(bufnr, 'n', '<leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>', opts)
-
-  -- List all references
-  buf_set_keymap(bufnr, 'n', '<leader>gr', '<Cmd>Telescope lsp_references<CR>', opts)
+  
+  -- Go to definition
+  buf_set_keymap(bufnr, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  
+  -- Go to implementation
+  buf_set_keymap(bufnr, 'n', 'gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  
+  -- Go to references
+  buf_set_keymap(bufnr, 'n', 'gr', '<Cmd>Telescope lsp_references<CR>', opts)
+  
+  -- Show diagnostics for current line
+  buf_set_keymap(bufnr, 'n', '<leader>de', '<Cmd>lua vim.diagnostic.open_float()<CR>', opts)
+  
+  -- Navigate diagnostics
+  buf_set_keymap(bufnr, 'n', '[d', '<Cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap(bufnr, 'n', ']d', '<Cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+  
+  -- Show all diagnostics
+  buf_set_keymap(bufnr, 'n', '<leader>ld', '<Cmd>Telescope diagnostics<CR>', opts)
+  
+  -- Code actions
+  buf_set_keymap(bufnr, 'n', '<leader>lc', '<Cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap(bufnr, 'v', '<leader>la', '<Cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
 
   -- Code Lens refresh
   vim.cmd [[
     augroup LSPCodeLens
       autocmd!
       autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()
+    augroup END
+  ]]
+  
+  -- Rubocop autocommands
+  vim.cmd [[
+    augroup Rubocop
+      autocmd!
+      autocmd BufWritePost *.rb,*.rake,Gemfile,*.jbuilder,*.haml,*.erb silent! !rubocop -a <afile>
     augroup END
   ]]
 end
@@ -90,58 +119,22 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
 capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
--- Configure the Ruby LSP
--- {
---  "initializationOptions": {
---    "enabledFeatures": {
---      "codeActions": true,
---      "codeLens": true,
---      "completion": true,
---      "definition": true,
---      "diagnostics": true,
---      "documentHighlights": true,
---      "documentLink": true,
---      "documentSymbols": true,
---      "foldingRanges": true,
---      "formatting": true,
---      "hover": true,
---      "inlayHint": true,
---      "onTypeFormatting": true,
---      "selectionRanges": true,
---      "semanticHighlighting": true,
---      "signatureHelp": true,
---      "typeHierarchy": true,
---      "workspaceSymbol": true
---    },
---    "featuresConfiguration": {
---      "inlayHint": {
---        "implicitHashValue": true,
---        "implicitRescue": true
---      }
---    },
---    "indexing": {
---      "excludedPatterns": ["path/to/excluded/file.rb"],
---      "includedPatterns": ["path/to/included/file.rb"],
---      "excludedGems": ["gem1", "gem2", "etc."],
---      "excludedMagicComments": ["compiled:true"]
---    },
---    "formatter": "auto",
---    "linters": [],
---    "experimentalFeaturesEnabled": false
---  }
+-- Configure the Ruby LSP with Rubocop integration
 lspconfig.ruby_lsp.setup({
-  cmd = { "ruby-lsp" },
+  cmd = { "ruby-lsp" },  -- Use the standalone ruby-lsp executable for composed bundle
   on_attach = on_attach,
   capabilities = capabilities,
   settings = {
     rubyLsp = {
-      useBundler = false,
+      -- The composed bundle strategy will set up a separate bundle under .ruby-lsp
+      -- in your project directory that includes ruby-lsp and your project's gems
+      useBundler = false,  -- Set to false to use composed bundle strategy
     },
   },
   init_options = {
-    formatter = 'rubocop',     -- Options: 'auto', 'rubocop', 'standard', 'syntax_tree', 'none'
-    linters = { 'rubocop' },   -- Specify the linters to use
-    enabledFeatures = {        -- Enable or disable specific LSP features
+    formatter = 'rubocop',     -- Use Rubocop for formatting
+    linters = { 'rubocop' },   -- Use Rubocop for linting
+    enabledFeatures = {        -- Enable all useful LSP features
       "codeActions",
       "codeLens",
       "diagnostics",
@@ -151,10 +144,78 @@ lspconfig.ruby_lsp.setup({
       "foldingRange",
       "formatting",
       "hover",
-      --"inlayHint",
+      "inlayHint",
       "onTypeFormatting",
       "semanticHighlighting",
-      "selectionRange" ,
+      "selectionRange",
+    },
+    featuresConfiguration = {
+      -- Configuration for specific features
+      inlayHint = {
+        implicitHashValue = true,
+        implicitRescue = true,
+      },
     },
   },
 })
+
+-- Setup diagnostics display
+vim.diagnostic.config({
+  virtual_text = {
+    prefix = '●', -- Use a symbol for diagnostic hints
+    source = 'if_many',
+  },
+  float = {
+    source = 'always',
+    border = 'rounded',
+  },
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
+})
+
+-- Setup diagnostic signs
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+
+-- Setup trouble.nvim for better diagnostics UI
+require("trouble").setup {
+  position = "bottom",
+  height = 10,
+  icons = true,
+  mode = "workspace_diagnostics",
+  fold_open = "",
+  fold_closed = "",
+  group = true,
+  padding = true,
+  action_keys = {
+    close = "q",
+    cancel = "<esc>",
+    refresh = "r",
+    jump = {"<cr>", "<tab>"},
+    open_split = { "<c-x>" },
+    open_vsplit = { "<c-v>" },
+    open_tab = { "<c-t>" },
+    jump_close = {"o"},
+    toggle_mode = "m",
+    toggle_preview = "P",
+    hover = "K",
+    preview = "p",
+    close_folds = {"zM", "zm"},
+    open_folds = {"zR", "zr"},
+    toggle_fold = {"zA", "za"},
+    previous = "k",
+    next = "j"
+  },
+}
+
+-- Key mappings for trouble.nvim
+vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>", {silent = true, noremap = true})
+vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", {silent = true, noremap = true})
+vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>", {silent = true, noremap = true})
+vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>", {silent = true, noremap = true})
+vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", {silent = true, noremap = true})

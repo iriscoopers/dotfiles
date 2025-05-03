@@ -8,7 +8,7 @@ vim.opt.showmode = false
 -- Initialize vim-plug
 vim.cmd('source ~/.config/nvim/plugins.vim')
 
--- Include configurations
+-- Load configurations
 require('theme')
 require('mappings')
 require('telescope_config')
@@ -16,6 +16,9 @@ require('treesitter_config')
 require('cmp_config')
 require('lsp')
 require('copilot_chat')
+require('command_references')
+-- Load rails_config last to ensure it doesn't override other settings
+require('rails_config')
 
 -- General settings
 vim.o.backspace = "indent,eol,start"     -- Allow backspacing over everything in insert mode
@@ -46,6 +49,11 @@ vim.opt.rtp:append("/usr/local/opt/fzf") -- Add fzf to runtime path
 vim.opt.foldmethod = "expr"              -- Fold based on indent level
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- Use treesitter for folding
 vim.opt.foldlevel = 99                   -- Open all folds by default
+vim.opt.ignorecase = true                -- Case-insensitive search
+vim.opt.smartcase = true                 -- Override ignorecase if search pattern has uppercase
+vim.opt.termguicolors = true             -- Enable 24-bit RGB color
+vim.opt.undofile = true                  -- Persistent undo history
+vim.opt.signcolumn = "yes"               -- Always show sign column for Git/LSP signs
 
 -- Autocommands
 -- Automatically rebalance windows on vim resize
@@ -70,3 +78,16 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   command = ":%s/\\s\\+$//e",
 })
+
+-- Reload changed files automatically
+vim.api.nvim_create_autocmd({"FocusGained", "BufEnter"}, {
+  pattern = "*",
+  command = ":checktime"
+})
+
+-- Setup LSP diagnostic symbols
+local signs = { Error = " ", Warn = " ", Hint = "󰌵 ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+end

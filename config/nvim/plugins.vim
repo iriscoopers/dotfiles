@@ -24,6 +24,7 @@ call plug#begin()
 
   " LSPs
   Plug 'neovim/nvim-lspconfig'
+  Plug 'folke/trouble.nvim'              " Better diagnostics UI
 
   " Auto-completion
   Plug 'hrsh7th/nvim-cmp'          " Completion plugin
@@ -33,44 +34,30 @@ call plug#begin()
   Plug 'L3MON4D3/LuaSnip'          " Snippet engine
   Plug 'saadparwaiz1/cmp_luasnip'  " Snippet completions
 
-  " Plug 'kana/vim-textobj-user'
-  " Plug 'nelstrom/vim-textobj-rubyblock'
-  " Plug 'tpope/vim-surround'
-
-  " Language highlighting
-  " Plug 'vim-ruby/vim-ruby'
-
-  " Actual syntax tree (AST) for syntax highlighting, code folding, and structural editing
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-
-  " Extending %
-  " Plug 'vim-scripts/matchit.zip'
-
-  " Rails
-  " Plug 'tpope/vim-fugitive'
-  " Plug 'shumphrey/fugitive-gitlab.vim'
-  " Plug 'tpope/vim-rhubarb'
-  " Plug 'tpope/vim-bundler'
+  " Ruby/Rails
   Plug 'tpope/vim-rails'
-  " Plug 'thoughtbot/vim-rspec'
+  Plug 'vim-ruby/vim-ruby'
+  Plug 'tpope/vim-endwise'         " Auto-add end in Ruby
+  Plug 'slim-template/vim-slim'    " Slim template support
+  Plug 'tpope/vim-bundler'
+  Plug 'ngmy/vim-rubocop'          " Rubocop integration
+  Plug 'thoughtbot/vim-rspec'      " RSpec integration
 
-  " Plug 'mfussenegger/nvim-dap' "debugging
+  " Tree-sitter
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
-  " Javascript
-  " Plug 'beautify-web/js-beautify'
-  " Plug 'leafgarland/typescript-vim'
-  " Plug 'pangloss/vim-javascript'
-  " Plug 'maxmellon/vim-jsx-pretty'
-
-  " LSP in vim
-  " Plug 'neovim/nvim-lspconfig'
-  " Plug 'hrsh7th/cmp-nvim-lsp'
-  " Plug 'hrsh7th/nvim-cmp'
-  " Plug 'L3MON4D3/LuaSnip'
-  " Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v3.x'}
-  " Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  " Git integration
+  Plug 'tpope/vim-fugitive'
 
   " AI
   Plug 'github/copilot.vim'
   Plug 'CopilotC-Nvim/CopilotChat.nvim'
+  Plug 'MunifTanjim/nui.nvim'           " UI component library required by neoai
+  Plug 'Bryley/neoai.nvim'         " OpenAI integration for Neovim
+
+  " Advanced text editing
+  Plug 'tpope/vim-surround'        " Surroundings manipulation
+  Plug 'tpope/vim-repeat'          " Enhanced . repeat
+  Plug 'AndrewRadev/splitjoin.vim' " Split/join lines
 call plug#end()
