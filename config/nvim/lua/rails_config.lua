@@ -55,38 +55,50 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Set up Rails-specific keymaps
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "ruby", "eruby", "haml", "slim" },
+-- Rails navigation commands
+local function create_rails_command(name, path)
+  vim.api.nvim_create_user_command(name, function()
+    local ok = pcall(vim.cmd, 'normal gf')
+    if not ok then
+      vim.cmd('find ' .. path)
+    end
+  end, {})
+end
+
+-- Create all the Rails navigation commands
+create_rails_command('Emodel', 'app/models')
+create_rails_command('Econtroller', 'app/controllers')
+create_rails_command('Eview', 'app/views')
+create_rails_command('Ehelper', 'app/helpers')
+create_rails_command('Emailer', 'app/mailers')
+create_rails_command('Ejob', 'app/jobs')
+create_rails_command('Espec', 'spec')
+create_rails_command('Econfig', 'config')
+create_rails_command('Emigration', 'db/migrate')
+create_rails_command('Efixture', 'test/fixtures')
+create_rails_command('Elocale', 'config/locales')
+
+-- Rails keymaps for navigation
+vim.keymap.set('n', '<leader>rm', ':Emodel<CR>', { desc = 'Jump to model' })
+vim.keymap.set('n', '<leader>rc', ':Econtroller<CR>', { desc = 'Jump to controller' })
+vim.keymap.set('n', '<leader>rv', ':Eview<CR>', { desc = 'Jump to view' })
+vim.keymap.set('n', '<leader>rh', ':Ehelper<CR>', { desc = 'Jump to helper' })
+vim.keymap.set('n', '<leader>ra', ':Emailer<CR>', { desc = 'Jump to mailer' })
+vim.keymap.set('n', '<leader>rj', ':Ejob<CR>', { desc = 'Jump to job' })
+vim.keymap.set('n', '<leader>rs', ':Espec<CR>', { desc = 'Jump to spec' })
+vim.keymap.set('n', '<leader>rg', ':Emigration<CR>', { desc = 'Jump to migration' })
+vim.keymap.set('n', '<leader>rf', ':Efixture<CR>', { desc = 'Jump to fixture' })
+vim.keymap.set('n', '<leader>rl', ':Elocale<CR>', { desc = 'Jump to locale' })
+vim.keymap.set('n', '<leader>rC', ':Econfig<CR>', { desc = 'Jump to config' })
+
+-- Debug Rails setup on startup
+vim.api.nvim_create_autocmd('VimEnter', {
   callback = function()
-    -- Rails-specific keymaps
-    local opts = { noremap = true, silent = true }
-    local keymap = vim.api.nvim_buf_set_keymap
-
-    -- Rails.vim keymaps
-    keymap(0, "n", "<leader>rar", ":R<CR>", opts)  -- Run Rails command
-    keymap(0, "n", "<leader>ram", ":Rmodel<CR>", opts)  -- Jump to model
-    keymap(0, "n", "<leader>rac", ":Rcontroller<CR>", opts)  -- Jump to controller
-    keymap(0, "n", "<leader>rav", ":Rview<CR>", opts)  -- Jump to view
-    keymap(0, "n", "<leader>rah", ":Rhelper<CR>", opts)  -- Jump to helper
-    keymap(0, "n", "<leader>raj", ":Rjavascript<CR>", opts)  -- Jump to JavaScript
-    keymap(0, "n", "<leader>ras", ":Rstylesheet<CR>", opts)  -- Jump to stylesheet
-    keymap(0, "n", "<leader>rat", ":Rtest<CR>", opts)  -- Jump to test
-    keymap(0, "n", "<leader>ral", ":Rlayout<CR>", opts)  -- Jump to layout
-    keymap(0, "n", "<leader>rai", ":Rinitializer<CR>", opts)  -- Jump to initializer
-    keymap(0, "n", "<leader>rag", ":Rgenerate<CR>", opts)  -- Generate Rails code
-    keymap(0, "n", "<leader>rad", ":Rdestroy<CR>", opts)  -- Destroy Rails code
-    keymap(0, "n", "<leader>rap", ":Rpreview<CR>", opts)  -- Preview Rails code
-    keymap(0, "n", "<leader>rax", ":Rrunner<CR>", opts)  -- Run Rails runner
-    keymap(0, "n", "<leader>rak", ":Rrake<CR>", opts)  -- Run Rake task
-    keymap(0, "n", "<leader>ra?", ":Rails<CR>", opts)  -- Show Rails.vim help
-
-    -- RSpec keymaps
-    keymap(0, "n", "<leader>t", ":call RunCurrentSpecFile()<CR>", opts)
-    keymap(0, "n", "<leader>s", ":call RunNearestSpec()<CR>", opts)
-    keymap(0, "n", "<leader>l", ":call RunLastSpec()<CR>", opts)
-    keymap(0, "n", "<leader>a", ":call RunAllSpecs()<CR>", opts)
-  end,
+    vim.notify('Rails command available: ' .. tostring(vim.fn.exists(':Rails')))
+    vim.notify('Current directory: ' .. vim.fn.getcwd())
+    -- Try to load rails plugin explicitly
+    vim.cmd('runtime! plugin/rails.vim')
+  end
 })
 
 -- Set up Rails-specific completion
@@ -106,4 +118,4 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     -- Run Rubocop auto-correct on save
     vim.cmd("silent! !rubocop -a <afile>")
   end,
-}) 
+})

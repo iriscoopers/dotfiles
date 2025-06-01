@@ -59,7 +59,7 @@ local on_attach = function(client, bufnr)
   -- Hover Actions
   -- Shows hover information for the symbol under the cursor.
   buf_set_keymap(bufnr, 'n', '<leader>ha', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap(bufnr, 'n', '<Leader>lh', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
 
   -- Go to Type Definition
   -- Navigate to the type definition of the symbol under the cursor.
@@ -71,26 +71,26 @@ local on_attach = function(client, bufnr)
   -- Rename Symbol
   -- Rename all references to the symbol under the cursor.
   buf_set_keymap(bufnr, 'n', '<leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  
+
   -- Go to definition
   buf_set_keymap(bufnr, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  
+
   -- Go to implementation
   buf_set_keymap(bufnr, 'n', 'gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  
+
   -- Go to references
   buf_set_keymap(bufnr, 'n', 'gr', '<Cmd>Telescope lsp_references<CR>', opts)
-  
+
   -- Show diagnostics for current line
   buf_set_keymap(bufnr, 'n', '<leader>de', '<Cmd>lua vim.diagnostic.open_float()<CR>', opts)
-  
+
   -- Navigate diagnostics
   buf_set_keymap(bufnr, 'n', '[d', '<Cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap(bufnr, 'n', ']d', '<Cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-  
+
   -- Show all diagnostics
   buf_set_keymap(bufnr, 'n', '<leader>ld', '<Cmd>Telescope diagnostics<CR>', opts)
-  
+
   -- Code actions
   buf_set_keymap(bufnr, 'n', '<leader>lc', '<Cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap(bufnr, 'v', '<leader>la', '<Cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
@@ -102,7 +102,7 @@ local on_attach = function(client, bufnr)
       autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()
     augroup END
   ]]
-  
+
   -- Rubocop autocommands
   vim.cmd [[
     augroup Rubocop
@@ -120,16 +120,37 @@ local cmp_nvim_lsp = require('cmp_nvim_lsp')
 capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
 -- Configure the Ruby LSP with Rubocop integration
+-- Enable debug logging for LSP
+vim.lsp.set_log_level("debug")
+
+-- Add error handler for ruby-lsp
+local ruby_lsp_error_handler = function(err, result, ctx, config)
+  if err then
+    vim.notify(string.format('Error in ruby-lsp: %s', vim.inspect(err)), vim.log.levels.ERROR)
+  end
+  vim.lsp.handlers["window/showMessage"](err, result, ctx, config)
+end
+
 lspconfig.ruby_lsp.setup({
-  cmd = { "ruby-lsp" },  -- Use the standalone ruby-lsp executable for composed bundle
-  on_attach = on_attach,
+  before_init = function(initialize_params)
+    initialize_params.initializationOptions = {
+      enabledFeatures = { "hover", "documentSymbol", "documentLink", "diagnostics" }
+    }
+  end,
+  cmd = { 'ruby-lsp' },  -- The executable will handle the composed bundle setup
+  on_attach = function(client, bufnr)
+    vim.notify('LSP attached to buffer ' .. bufnr)
+    on_attach(client, bufnr)
+  end,
+  on_exit = function(code, signal, client_id)
+    vim.notify(string.format('ruby-lsp exited with code %d and signal %d', code, signal))
+  end,
+  handlers = {
+    ["window/showMessage"] = ruby_lsp_error_handler,
+  },
   capabilities = capabilities,
-  settings = {
-    rubyLsp = {
-      -- The composed bundle strategy will set up a separate bundle under .ruby-lsp
-      -- in your project directory that includes ruby-lsp and your project's gems
-      useBundler = false,  -- Set to false to use composed bundle strategy
-    },
+  flags = {
+    debounce_text_changes = 150,
   },
   init_options = {
     formatter = 'rubocop',     -- Use Rubocop for formatting
@@ -147,14 +168,14 @@ lspconfig.ruby_lsp.setup({
       "inlayHint",
       "onTypeFormatting",
       "semanticHighlighting",
-      "selectionRange",
-    },
-    featuresConfiguration = {
-      -- Configuration for specific features
-      inlayHint = {
-        implicitHashValue = true,
-        implicitRescue = true,
-      },
+      "selectionRange"
+    }
+  },
+  settings = {
+    rubyLsp = {
+      -- The composed bundle strategy will set up a separate bundle under .ruby-lsp
+      -- in your project directory that includes ruby-lsp and your project's gems
+      useBundler = false,  -- Set to false to use composed bundle strategy
     },
   },
 })

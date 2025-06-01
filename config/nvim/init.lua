@@ -1,3 +1,6 @@
+-- Set nocompatible mode
+vim.opt.compatible = false
+
 -- Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ','
 vim.g.localmapleader = ','
@@ -5,8 +8,22 @@ vim.g.localmapleader = ','
 -- Don't show mode, since it's already in the status bar
 vim.opt.showmode = false
 
+-- Enable filetype detection and plugins
+vim.cmd('filetype plugin indent on')
+
 -- Initialize vim-plug
 vim.cmd('source ~/.config/nvim/plugins.vim')
+
+-- Load vim-rails after filetype detection
+vim.cmd('runtime! plugin/rails.vim')
+
+-- Debug vim-rails loading
+vim.api.nvim_create_autocmd('VimEnter', {
+  callback = function()
+    vim.notify('vim-rails loaded: ' .. tostring(vim.fn.exists(':Rails')))
+    vim.notify('vim-rails functions: ' .. tostring(vim.fn.exists('*rails#app')))
+  end
+})
 
 -- Load configurations
 require('theme')

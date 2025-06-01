@@ -2,6 +2,7 @@
 vim.api.nvim_set_keymap('n', '<leader>r', ':source ~/.config/nvim/init.lua<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>ra', ':windo :source ~/.config/nvim/init.lua<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>x', ':Explore<CR>', { noremap = true, silent = true }) -- file explorer
+
 vim.api.nvim_set_keymap('i', '<C-c>', '<Esc>`^', { noremap = true }) -- Get back to normal mode
 vim.api.nvim_set_keymap('n', '<leader>h', ':nohlsearch<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>e', ':e#<CR>', { noremap = true, silent = true })
