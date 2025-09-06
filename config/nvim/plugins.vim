@@ -51,8 +51,6 @@ call plug#begin()
   Plug 'tpope/vim-fugitive'
 
   " AI
-  Plug 'github/copilot.vim'
-  Plug 'CopilotC-Nvim/CopilotChat.nvim'
   Plug 'MunifTanjim/nui.nvim'           " UI component library required by neoai
   Plug 'Bryley/neoai.nvim'         " OpenAI integration for Neovim
 
