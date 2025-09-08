@@ -90,10 +90,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- Remove trailing whitespace
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  command = ":%s/\\s\\+$//e",
-})
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   pattern = "*",
+--   command = ":%s/\\s\\+$//e",
+-- })
 
 -- Reload changed files automatically
 vim.api.nvim_create_autocmd({"FocusGained", "BufEnter"}, {
