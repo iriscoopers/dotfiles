@@ -1,5 +1,10 @@
-local cmp = require'cmp'
-local luasnip = require('luasnip')
+-- Protected calls to require cmp and luasnip
+local cmp_ok, cmp = pcall(require, 'cmp')
+local luasnip_ok, luasnip = pcall(require, 'luasnip')
+
+if not cmp_ok or not luasnip_ok then
+  return
+end
 
 -- Super-Tab like mapping
 local has_words_before = function()

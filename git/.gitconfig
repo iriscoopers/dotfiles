@@ -13,11 +13,11 @@
   default = current
 [core]
   editor = vim
-  excludesfile = /Users/iris/.gitignore
+	excludesfile = /Users/iriskuipers/.gitignore
 [init]
-  templatedir = ~/.git_template
+  # templatedir = ~/.git_template
 [alias]
-  ctags = !.git/hooks/ctags
+  # ctags = !.git/hooks/ctags
   cb = !git checkout $(git branch | fzf)
   cba = !git checkout $(git branch -a | fzf)
   cl = ! git branch --merged | egrep -v '(^\\*|master)' | xargs git branch -d

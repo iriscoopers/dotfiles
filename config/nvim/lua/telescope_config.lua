@@ -1,4 +1,8 @@
-local telescope = require('telescope')
+-- Protected call to require telescope
+local telescope_ok, telescope = pcall(require, 'telescope')
+if not telescope_ok then
+  return
+end
 
 -- Telescope configuration
 telescope.setup{
@@ -33,5 +37,5 @@ telescope.setup{
   }
 }
 
--- Load the fzf extension
-telescope.load_extension('fzf')
+-- Load the fzf extension (protected call)
+pcall(telescope.load_extension, 'fzf')

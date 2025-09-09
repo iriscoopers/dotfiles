@@ -1,4 +1,10 @@
-local lualine = require('lualine')
+-- Protected call to require lualine (in case it's not installed yet)
+local lualine_ok, lualine = pcall(require, 'lualine')
+if not lualine_ok then
+  -- Try to set colorscheme, but don't crash if it's not available
+  pcall(vim.cmd, "colorscheme rose-pine-moon")
+  return
+end
 
 -- Lualine configuration
 -- Define the rose-pine theme for lualine
@@ -63,9 +69,9 @@ lualine.setup {
 -- Function to setup Tmuxline with rose-pine-moon colors
 -- Call the function to setup tmuxline
 
--- Set the colorscheme
--- vim.cmd("colorscheme rose-pine")
--- vim.cmd("colorscheme rose-pine-main")
-vim.cmd("colorscheme rose-pine-moon")
--- vim.cmd("colorscheme rose-pine-dawn")
+-- Set the colorscheme (protected call in case it's not installed)
+-- pcall(vim.cmd, "colorscheme rose-pine")
+-- pcall(vim.cmd, "colorscheme rose-pine-main")
+pcall(vim.cmd, "colorscheme rose-pine-moon")
+-- pcall(vim.cmd, "colorscheme rose-pine-dawn")
 

@@ -1,5 +1,8 @@
--- Setup nvim-lspconfig
-local lspconfig = require('lspconfig')
+-- Protected call to require lspconfig
+local lspconfig_ok, lspconfig = pcall(require, 'lspconfig')
+if not lspconfig_ok then
+  return
+end
 
 -- Function to attach completion and diagnostics when LSP is ready
 local on_attach = function(client, bufnr)

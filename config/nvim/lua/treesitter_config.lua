@@ -1,4 +1,8 @@
-local config = require('nvim-treesitter.configs')
+-- Protected call to require nvim-treesitter
+local config_ok, config = pcall(require, 'nvim-treesitter.configs')
+if not config_ok then
+  return
+end
 
 config.setup({
   ensure_installed = { 'ruby', 'javascript', 'sql', 'yaml', 'json' }, -- or "all"
