@@ -1,3 +1,6 @@
+-- Set nocompatible mode
+vim.opt.compatible = false
+
 -- Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ','
 vim.g.localmapleader = ','
@@ -5,18 +8,33 @@ vim.g.localmapleader = ','
 -- Don't show mode, since it's already in the status bar
 vim.opt.showmode = false
 
+-- Enable filetype detection and plugins
+vim.cmd('filetype plugin indent on')
+
 -- Initialize vim-plug
 vim.cmd('source ~/.config/nvim/plugins.vim')
 
--- Require your plugins setup
-require("plugins")
+-- Load vim-rails after filetype detection
+vim.cmd('runtime! plugin/rails.vim')
 
--- Key mappings
-vim.api.nvim_set_keymap('n', '<leader>r', ':source ~/.config/nvim/init.lua<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>ra', ':windo :source ~/.config/nvim/init.lua<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>x', ':Explore<CR>', { noremap = true, silent = true }) -- file explorer
-vim.api.nvim_set_keymap('i', '<C-c>', '<Esc>`^', { noremap = true }) -- Get back to normal mode
-vim.api.nvim_set_keymap('n', '<leader>h', ':nohlsearch<CR>', { noremap = true, silent = true })
+-- Debug vim-rails loading
+vim.api.nvim_create_autocmd('VimEnter', {
+  callback = function()
+    vim.notify('vim-rails loaded: ' .. tostring(vim.fn.exists(':Rails')))
+    vim.notify('vim-rails functions: ' .. tostring(vim.fn.exists('*rails#app')))
+  end
+})
+
+-- Load configurations
+require('theme')
+require('mappings')
+require('telescope_config')
+require('treesitter_config')
+require('cmp_config')
+require('lsp')
+require('command_references')
+-- Load rails_config last to ensure it doesn't override other settings
+require('rails_config')
 
 -- General settings
 vim.o.backspace = "indent,eol,start"     -- Allow backspacing over everything in insert mode
@@ -40,10 +58,18 @@ vim.o.complete = ".,b,u,]"               -- Command-line completion settings
 vim.o.wildmode = "longest,list:longest"  -- Command-line completion mode
 vim.o.splitbelow = true                  -- Open new horizontal pane to the bottom
 vim.o.splitright = true                  -- Open new vertical pane to the right
-vim.opt.clipboard = unnamedplus          -- Use the clipboard for all operations
+vim.opt.clipboard = 'unnamedplus'        -- Use the clipboard for all operations
 vim.opt.inccommand = 'split'             -- Preview substitutions live, as you type!
 vim.opt.colorcolumn = "100"              -- Highlight column at 100 characters
 vim.opt.rtp:append("/usr/local/opt/fzf") -- Add fzf to runtime path
+vim.opt.foldmethod = "expr"              -- Fold based on indent level
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- Use treesitter for folding
+vim.opt.foldlevel = 99                   -- Open all folds by default
+vim.opt.ignorecase = true                -- Case-insensitive search
+vim.opt.smartcase = true                 -- Override ignorecase if search pattern has uppercase
+vim.opt.termguicolors = true             -- Enable 24-bit RGB color
+vim.opt.undofile = true                  -- Persistent undo history
+vim.opt.signcolumn = "yes"               -- Always show sign column for Git/LSP signs
 
 -- Autocommands
 -- Automatically rebalance windows on vim resize
@@ -64,7 +90,20 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- Remove trailing whitespace
-vim.api.nvim_create_autocmd("BufWritePre", {
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   pattern = "*",
+--   command = ":%s/\\s\\+$//e",
+-- })
+
+-- Reload changed files automatically
+vim.api.nvim_create_autocmd({"FocusGained", "BufEnter"}, {
   pattern = "*",
-  command = ":%s/\\s\\+$//e",
+  command = ":checktime"
 })
+
+-- Setup LSP diagnostic symbols
+local signs = { Error = " ", Warn = " ", Hint = "󰌵 ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+end

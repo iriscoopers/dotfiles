@@ -19,7 +19,6 @@ call plug#begin()
 " Make sure you use single quotes
   " Style
   Plug 'itchyny/lightline.vim'
-  Plug 'edkolev/tmuxline.vim'
 
   " Editor
   Plug 'rose-pine/neovim', { 'as': 'rose-pine' }
@@ -81,7 +80,7 @@ set cursorline      " highlight line the cursor is on
 set relativenumber  " show line numbers in files
 set number          " show current line number
 set showcmd	      	" display incomplete commands
-set clipboard=unnamed   " use cliplboard anywhere
+" set clipboard=unnamed   " use cliplboard anywhere
 set noswapfile      " do not create a .swp file
 set laststatus=2    " always show the status line
 set rtp+=/opt/homebrew/opt/fzf

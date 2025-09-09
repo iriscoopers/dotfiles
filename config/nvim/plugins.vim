@@ -9,49 +9,53 @@ call plug#begin()
 
 " Make sure you use single quotes
   " Style
-  Plug 'altercation/vim-colors-solarized'
-  Plug 'itchyny/lightline.vim'
+  Plug 'rose-pine/neovim', { 'as': 'rose-pine' }
+  Plug 'nvim-lualine/lualine.nvim'
   Plug 'edkolev/tmuxline.vim'
 
   " Tmux <3 Vim
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'christoomey/vim-tmux-runner'
 
-  Plug 'junegunn/fzf'
-  Plug 'junegunn/fzf.vim'
-  Plug 'kana/vim-textobj-user'
-  " Plug 'nelstrom/vim-textobj-rubyblock'
-  " Plug 'tpope/vim-surround'
+  " Searching
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim'
+  Plug 'nvim-telescope/telescope-fzf-native.nvim', {'do': 'make'}
 
-  " Language highlighting
-  " Plug 'vim-ruby/vim-ruby'
-
-  " Extending %
-  Plug 'vim-scripts/matchit.zip'
-  " Rails
-  Plug 'tpope/vim-fugitive'
-  Plug 'shumphrey/fugitive-gitlab.vim'
-  Plug 'tpope/vim-rhubarb'
-  Plug 'tpope/vim-bundler'
-  " Plug 'tpope/vim-rails'
-  Plug 'thoughtbot/vim-rspec'
-
-  Plug 'mfussenegger/nvim-dap' "debugging
-
-  " Javascript
-  Plug 'beautify-web/js-beautify'
-  Plug 'leafgarland/typescript-vim'
-  Plug 'pangloss/vim-javascript'
-  Plug 'maxmellon/vim-jsx-pretty'
-
-  " LSP in vim
+  " LSPs
   Plug 'neovim/nvim-lspconfig'
-  Plug 'hrsh7th/cmp-nvim-lsp'
-  Plug 'hrsh7th/nvim-cmp'
-  Plug 'L3MON4D3/LuaSnip'
-  Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v3.x'}
-  "Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'folke/trouble.nvim'              " Better diagnostics UI
+
+  " Auto-completion
+  Plug 'hrsh7th/nvim-cmp'          " Completion plugin
+  Plug 'hrsh7th/cmp-nvim-lsp'      " LSP source for nvim-cmp
+  Plug 'hrsh7th/cmp-buffer'        " Buffer completions
+  Plug 'hrsh7th/cmp-path'          " Path completions
+  Plug 'L3MON4D3/LuaSnip'          " Snippet engine
+  Plug 'saadparwaiz1/cmp_luasnip'  " Snippet completions
+
+  " Ruby/Rails
+  Plug 'tpope/vim-rails'
+  Plug 'vim-ruby/vim-ruby'
+  Plug 'tpope/vim-endwise'         " Auto-add end in Ruby
+  Plug 'slim-template/vim-slim'    " Slim template support
+  Plug 'tpope/vim-bundler'
+  Plug 'ngmy/vim-rubocop'          " Rubocop integration
+  Plug 'thoughtbot/vim-rspec'      " RSpec integration
+
+  " Tree-sitter
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+
+  " Git integration
+  Plug 'tpope/vim-fugitive'
 
   " AI
-  Plug 'github/copilot.vim'
+  Plug 'MunifTanjim/nui.nvim'           " UI component library required by neoai
+  Plug 'Bryley/neoai.nvim'         " OpenAI integration for Neovim
+
+  " Advanced text editing
+  Plug 'tpope/vim-surround'        " Surroundings manipulation
+  Plug 'tpope/vim-repeat'          " Enhanced . repeat
+  Plug 'AndrewRadev/splitjoin.vim' " Split/join lines
 call plug#end()

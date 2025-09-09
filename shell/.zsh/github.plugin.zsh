@@ -1,12 +1,15 @@
-# Github PRs
-# $1 = action
-# $2 = flag
-# $3 = search
-gprs() {
-  zparseopts -E -A opts a: s: f:
+# GitHub specific configurations and aliases
+alias ghpr='gh pr create'
+alias ghprv='gh pr view'
+alias ghprl='gh pr list'
+alias ghi='gh issue'
+alias ghil='gh issue list'
+alias ghic='gh issue create'
 
-  gh pr $opts[-a] $(gfzf $opts[-s]) $opts[-f]
-}
+# Set GitHub CLI editor if not already set
+if [ -z "$GH_EDITOR" ]; then
+  export GH_EDITOR='nvim'
+fi 
 
 gfzf() {
   gh pr list -S $1 | fzf | awk '{print $1}'
