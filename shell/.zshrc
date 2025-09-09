@@ -23,6 +23,7 @@ source $ZSH/oh-my-zsh.sh
 
 source ~/.zsh/aliases.plugin.zsh
 source ~/.zsh/github.plugin.zsh
+source ~/.zsh/gitlab.plugin.zsh
 source ~/.zsh/vim.plugin.zsh
 
 # Uncomment the following line to use case-sensitive completion.
@@ -88,9 +89,16 @@ export GPG_TTY=$(tty)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 
+# PATH configuration
+#export PATH="/opt/cloud66/bin:${PATH}"
+
 # Ruby
 # Automatically load rbenv
 eval "$(rbenv init - zsh)"
+#export PATH=/opt/homebrew/opt/ruby/bin:$PATH
+#export GEM_PATH=$HOME/.rbenv/versions/3.0.0/lib/ruby/gems/3.0.0
+
+# source $HOME/.docker/init-zsh.sh || true # Added by Docker Desktop
 
 export PATH="/opt/homebrew/opt/mysql-client@5.7/bin:$PATH"
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
@@ -101,3 +109,4 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /opt/homebrew/bin/terraform terraform
