@@ -119,3 +119,12 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     vim.cmd("silent! !rubocop -a <afile>")
   end,
 })
+
+-- RSpec configuration
+vim.g.rspec_command = "VtrSendCommandToRunner be rspec {spec}"
+
+-- RSpec keymaps
+vim.keymap.set('n', '<leader>t', ':call RunCurrentSpecFile()<CR>', { desc = 'Run current spec file' })
+vim.keymap.set('n', '<leader>s', ':call RunNearestSpec()<CR>', { desc = 'Run nearest spec' })
+vim.keymap.set('n', '<leader>l', ':call RunLastSpec()<CR>', { desc = 'Run last spec' })
+vim.keymap.set('n', '<leader>a', ':call RunAllSpecs()<CR>', { desc = 'Run all specs' })
