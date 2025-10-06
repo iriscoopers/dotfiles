@@ -18,7 +18,7 @@ local function create_popup_buffer(content, title)
 
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
   vim.api.nvim_buf_set_option(buf, 'modifiable', false)
-  vim.api.nvim_buf_set_option(buf, 'filetype', 'help')
+  vim.api.nvim_buf_set_option(buf, 'filetype', 'text')
   vim.api.nvim_buf_set_keymap(buf, 'n', 'q', ':q<CR>', { noremap = true, silent = true })
   vim.api.nvim_set_current_win(win)
 end
@@ -54,7 +54,7 @@ local function create_main_menu()
 
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
   vim.api.nvim_buf_set_option(buf, 'modifiable', false)
-  vim.api.nvim_buf_set_option(buf, 'filetype', 'help')
+  vim.api.nvim_buf_set_option(buf, 'filetype', 'text')
 
   -- Set up key mappings for the menu
   local function set_keymap(key, command)
