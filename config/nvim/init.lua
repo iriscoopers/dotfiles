@@ -70,6 +70,7 @@ vim.opt.smartcase = true                 -- Override ignorecase if search patter
 vim.opt.termguicolors = true             -- Enable 24-bit RGB color
 vim.opt.undofile = true                  -- Persistent undo history
 vim.opt.signcolumn = "yes"               -- Always show sign column for Git/LSP signs
+vim.opt.autoread = true                   -- Automatically reload files changed outside vim
 
 -- Autocommands
 -- Automatically rebalance windows on vim resize

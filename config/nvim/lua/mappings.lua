@@ -1,6 +1,6 @@
 -- Key mappings
-vim.api.nvim_set_keymap('n', '<leader>r', ':source ~/.config/nvim/init.lua<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>ra', ':windo :source ~/.config/nvim/init.lua<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>r', ':source ~/.config/nvim/init.lua<CR>:echo "Neovim config reloaded!"<CR>', { noremap = true, silent = false })
+vim.api.nvim_set_keymap('n', '<leader>ra', ':windo :source ~/.config/nvim/init.lua<CR>:echo "Neovim config reloaded in all windows!"<CR>', { noremap = true, silent = false })
 vim.api.nvim_set_keymap('n', '<leader>x', ':Explore<CR>', { noremap = true, silent = true }) -- file explorer
 
 vim.api.nvim_set_keymap('i', '<C-c>', '<Esc>`^', { noremap = true }) -- Get back to normal mode
