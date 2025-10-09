@@ -17,7 +17,6 @@
 [init]
   # templatedir = ~/.git_template
 [alias]
-  # ctags = !.git/hooks/ctags
   cb = !git checkout $(git branch | fzf)
   cba = !git checkout $(git branch -a | fzf)
   cl = ! git branch --merged | egrep -v '(^\\*|master)' | xargs git branch -d

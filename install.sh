@@ -50,7 +50,7 @@ echo "Installing cask\n\n"
 brew install cask
 
 echo "Installing packages\n\n"
-brew install ruby rbenv vim nvim tmux fzf ripgrep --HEAD universal-ctags/universal-ctags/universal-ctags
+brew install ruby rbenv vim nvim tmux fzf ripgrep
 
 # Reinstantiate the shell to load changes
 source $HOME/.zshrc

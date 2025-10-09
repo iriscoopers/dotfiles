@@ -232,8 +232,6 @@ nnoremap <C-f> :Find
 " Search buffers
 nnoremap <C-b> :Buffers<CR>
 
-" Ctags
-nnoremap <leader>tt :!Ctags -R<cr>
 
 " Rails
 nnoremap <leader>rc :Rails console<cr>
