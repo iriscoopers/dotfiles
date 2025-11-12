@@ -98,13 +98,13 @@ local on_attach = function(client, bufnr)
   buf_set_keymap(bufnr, 'n', '<leader>lc', '<Cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap(bufnr, 'v', '<leader>la', '<Cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
 
-  -- Code Lens refresh
-  vim.cmd [[
-    augroup LSPCodeLens
-      autocmd!
-      autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()
-    augroup END
-  ]]
+  -- Code Lens refresh (disabled due to index out of range errors)
+  -- vim.cmd [[
+  --   augroup LSPCodeLens
+  --     autocmd!
+  --     autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()
+  --   augroup END
+  -- ]]
 
   -- Rubocop autocommands
   vim.cmd [[
@@ -135,19 +135,8 @@ local ruby_lsp_error_handler = function(err, result, ctx, config)
 end
 
 lspconfig.ruby_lsp.setup({
-  before_init = function(initialize_params)
-    initialize_params.initializationOptions = {
-      enabledFeatures = { "hover", "documentSymbol", "documentLink", "diagnostics" }
-    }
-  end,
   cmd = { 'ruby-lsp' },  -- The executable will handle the composed bundle setup
-  on_attach = function(client, bufnr)
-    vim.notify('LSP attached to buffer ' .. bufnr)
-    on_attach(client, bufnr)
-  end,
-  on_exit = function(code, signal, client_id)
-    vim.notify(string.format('ruby-lsp exited with code %d and signal %d', code, signal))
-  end,
+  on_attach = on_attach,
   handlers = {
     ["window/showMessage"] = ruby_lsp_error_handler,
   },
@@ -156,12 +145,13 @@ lspconfig.ruby_lsp.setup({
     debounce_text_changes = 150,
   },
   init_options = {
-    formatter = 'rubocop',     -- Use Rubocop for formatting
-    linters = { 'rubocop' },   -- Use Rubocop for linting
+    formatter = 'auto',         -- Use auto formatter instead of rubocop
+    linters = { },              -- Disable linting to avoid RuboCop errors
     enabledFeatures = {        -- Enable all useful LSP features
       "codeActions",
-      "codeLens",
-      "diagnostics",
+      "codeLens",              -- Reference counts and test status
+      "definition",            -- Go to definition support
+      -- "diagnostics",        -- Disabled due to RuboCop internal errors
       "documentHighlight",
       "documentLink",
       "documentSymbol",
@@ -172,6 +162,12 @@ lspconfig.ruby_lsp.setup({
       "onTypeFormatting",
       "semanticHighlighting",
       "selectionRange"
+      -- Additional features to enable later:
+      -- "completion",         -- Auto-completion
+      -- "references",         -- Find references
+      -- "rename",             -- Rename symbol
+      -- "signatureHelp",      -- Show method signatures
+      -- "workspaceSymbol"     -- Workspace-wide symbol search
     }
   },
   settings = {
