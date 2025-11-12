@@ -51,8 +51,7 @@ call plug#begin()
   Plug 'tpope/vim-fugitive'
 
   " AI
-  Plug 'MunifTanjim/nui.nvim'           " UI component library required by neoai
-  Plug 'Bryley/neoai.nvim'         " OpenAI integration for Neovim
+  Plug 'github/copilot.vim'        " GitHub Copilot inline suggestions
 
   " Advanced text editing
   Plug 'tpope/vim-surround'        " Surroundings manipulation
