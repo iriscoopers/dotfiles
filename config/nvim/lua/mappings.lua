@@ -48,9 +48,9 @@ vim.api.nvim_set_keymap('n', '<leader>ar', ':VtrReattachRunner<CR>', { noremap =
 vim.api.nvim_set_keymap('n', '<leader>nr', ":VtrOpenRunner {'orientation': 'h', 'percentage': 30}<CR>", { noremap = true, silent = true })
 
 -- GitHub Copilot mappings
--- Disable default Tab mapping and use C-Space to accept suggestions
+-- Disable default Tab mapping and use C-y to accept suggestions
 vim.g.copilot_no_tab_map = true
-vim.api.nvim_set_keymap('i', '<C-Space>', 'copilot#Accept("<CR>")', { expr = true, silent = true, script = true })
+vim.api.nvim_set_keymap('i', '<C-y>', 'copilot#Accept("<CR>")', { expr = true, silent = true, script = true })
 
 -- Additional Copilot mappings
 vim.api.nvim_set_keymap('i', '<C-]>', '<Plug>(copilot-dismiss)', {})
