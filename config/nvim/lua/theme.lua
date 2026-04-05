@@ -58,70 +58,12 @@ local rose_pine_moon = {
   }
 }
 
--- Claude Code: read session data from temp file written by ~/.claude/statusline.sh
-local function read_claude_data()
-  local f = io.open('/tmp/claude_context.json', 'r')
-  if not f then return nil end
-  local content = f:read('*a')
-  f:close()
-  if content == '' then return nil end
-  local ok, data = pcall(vim.json.decode, content)
-  return (ok and data) or nil
-end
-
-local function claude_context()
-  local data = read_claude_data()
-  if not data then return '' end
-  local pct = math.floor((data.context_window and data.context_window.used_percentage) or 0)
-  local filled = math.floor(pct * 10 / 100)
-  local bar = string.rep('▓', filled) .. string.rep('░', 10 - filled)
-  return bar .. ' ' .. pct .. '%'
-end
-
-local function claude_context_color()
-  local data = read_claude_data()
-  if not data then return {fg = colors.muted} end
-  local pct = math.floor((data.context_window and data.context_window.used_percentage) or 0)
-  if pct >= 90 then return {fg = colors.love}
-  elseif pct >= 70 then return {fg = colors.gold}
-  else return {fg = colors.foam} end
-end
-
-local function claude_cost()
-  local data = read_claude_data()
-  if not data then return '' end
-  local cost = (data.cost and data.cost.total_cost_usd) or 0
-  if cost == 0 then return '' end
-  return string.format('$%.2f', cost)
-end
-
-local function claude_duration()
-  local data = read_claude_data()
-  if not data then return '' end
-  local ms = (data.cost and data.cost.total_duration_ms) or 0
-  if ms == 0 then return '' end
-  local secs = math.floor(ms / 1000)
-  return string.format('%dm%ds', math.floor(secs / 60), secs % 60)
-end
-
 -- Configure lualine to use the custom rose-pine theme
 lualine.setup {
   options = { theme = rose_pine_moon,
     -- Add other lualine options here
   },
-  sections = {
-    lualine_a = {'mode'},
-    lualine_b = {'branch', 'diff', 'diagnostics'},
-    lualine_c = {'filename'},
-    lualine_x = {
-      {claude_context,  color = claude_context_color},
-      {claude_cost,     color = {fg = colors.gold}},
-      {claude_duration, color = {fg = colors.iris}},
-      'encoding', 'fileformat', 'filetype',
-    },
-    lualine_y = {'progress'},
-    lualine_z = {'location'}
-  },
+  -- Add other lualine configurations here
 }
 
 -- Function to setup Tmuxline with rose-pine-moon colors
