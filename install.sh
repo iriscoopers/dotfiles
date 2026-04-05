@@ -37,6 +37,10 @@ ln -s $DOT_FILES/config/nvim/init.lua $HOME/.config/nvim/init.lua
 ln -s $DOT_FILES/config/nvim/plugins.vim $HOME/.config/nvim/plugins.vim
 ln -s $DOT_FILES/config/nvim/lua/* $HOME/.config/nvim/lua/
 
+# Claude Code config
+mkdir -p $HOME/.claude
+ln -s $DOT_FILES/claude/statusline.sh $HOME/.claude/statusline.sh
+
 # Copy and symlink git stuff
 cp ~/dotfiles/git/.gitconfig ~
 
