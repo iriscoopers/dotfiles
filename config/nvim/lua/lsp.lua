@@ -57,7 +57,8 @@ local on_attach = function(client, bufnr)
   -- Provides semantic token information to enhance syntax highlighting.
   -- Semantic highlighting is enabled by default in Neovim when the LSP server supports it.
   -- Ensure your colorscheme supports LSP semantic tokens.
-  buf_set_keymap(bufnr, 'n', '<leader>sh', '<Cmd>lua vim.lsp.semantic_tokens.toggle()<CR>', opts)
+  -- Neovim 0.12 removed vim.lsp.semantic_tokens.toggle(); enable/disable per buffer instead.
+  buf_set_keymap(bufnr, 'n', '<leader>sh', '<Cmd>lua vim.lsp.semantic_tokens.enable(not vim.lsp.semantic_tokens.is_enabled({ bufnr = 0 }), { bufnr = 0 })<CR>', opts)
 
   -- Hover Actions
   -- Shows hover information for the symbol under the cursor.
@@ -96,7 +97,8 @@ local on_attach = function(client, bufnr)
 
   -- Code actions
   buf_set_keymap(bufnr, 'n', '<leader>lc', '<Cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap(bufnr, 'v', '<leader>la', '<Cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
+  -- Neovim removed vim.lsp.buf.range_code_action(); code_action() handles visual ranges.
+  buf_set_keymap(bufnr, 'v', '<leader>la', '<Cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 
   -- Code Lens refresh (disabled due to index out of range errors)
   -- vim.cmd [[
@@ -123,8 +125,9 @@ local cmp_nvim_lsp = require('cmp_nvim_lsp')
 capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
 -- Configure the Ruby LSP with Rubocop integration
--- Enable debug logging for LSP
-vim.lsp.set_log_level("debug")
+-- LSP logging. Switch to "debug" temporarily when diagnosing a server, then put
+-- it back -- debug logs every message to ~/.local/state/nvim/lsp.log and grows fast.
+vim.lsp.log.set_level("warn")
 
 -- Add error handler for ruby-lsp
 local ruby_lsp_error_handler = function(err, result, ctx, config)
