@@ -110,3 +110,5 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
+export PATH="$HOME/.local/bin:$PATH"
+source /Users/iris/.safe-chain/scripts/init-posix.sh # Safe-chain Zsh initialization script
