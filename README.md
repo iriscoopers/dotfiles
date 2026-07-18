@@ -20,6 +20,11 @@ Only symlinks that point back into this repo are ever removed, so anything else
 in `$HOME` is left alone. A real file sitting where a symlink belongs is moved
 aside to `<name>.bak` rather than deleted.
 
+`~/.gitconfig` is the one exception: it is copied rather than symlinked, so
+machine-local settings (user email, signing keys) never show up as changes in
+this repo. `update.sh` leaves an existing one untouched. Changes made to
+`git/.gitconfig` in the repo therefore have to be merged in by hand.
+
 #### Vim
 
 * Run `:PluginInstall` in Vim

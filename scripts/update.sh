@@ -42,7 +42,12 @@ $HOME/git_template|$HOME/.git_template"
 # Basenames that are never symlinked.
 EXCLUDE_RE='^(\.DS_Store|\.git|.*\.itermcolors|.*\.itermkeymap|.*iterm.*\.json)$'
 
-created=0; relinked=0; removed=0; ignored=0
+# Paths (relative to the repo) that are copied by install.sh rather than
+# symlinked, so machine-local edits stay out of the repo. If a previous run
+# symlinked one of these, it is converted back to a real copy.
+COPY_NOT_LINK="git/.gitconfig"
+
+created=0; relinked=0; removed=0; ignored=0; converted=0
 desired=""       # newline separated destination paths we want to exist
 managed_dirs=""  # newline separated destination directories we mirror into
 
@@ -56,6 +61,36 @@ apply_rename() {
     if [ "$dest" = "${line%%|*}" ]; then printf '%s' "${line#*|}"; return; fi
   done <<< "$RENAMES"
   printf '%s' "$dest"
+}
+
+is_copy_not_link() {
+  local rel="$1" line
+  while IFS= read -r line; do
+    [ -n "$line" ] || continue
+    [ "$rel" = "$line" ] && return 0
+  done <<< "$COPY_NOT_LINK"
+  return 1
+}
+
+# A file we deliberately do not symlink. If an earlier run linked it, turn the
+# link back into a real copy so local edits are possible again; otherwise leave
+# whatever is there alone.
+keep_as_copy() {
+  local src="$1" dest="$2"
+  desired="$desired$dest"$'\n'   # keep prune from reclaiming it
+  if [ -L "$dest" ] && case "$(readlink "$dest")" in "$DOTFILES_DIR"/*) true ;; *) false ;; esac; then
+    log "= $dest is copied, not linked - replacing old symlink with a real copy"
+    run rm -f "$dest"
+    run cp "$src" "$dest"
+    converted=$((converted + 1))
+  elif [ ! -e "$dest" ]; then
+    log "= $dest is copied, not linked - creating initial copy"
+    run mkdir -p "$(dirname "$dest")"
+    run cp "$src" "$dest"
+    converted=$((converted + 1))
+  else
+    ignored=$((ignored + 1))   # real file already there, leave local edits be
+  fi
 }
 
 link_file() {
@@ -93,6 +128,10 @@ walk() {
       continue
     fi
     dest="$(apply_rename "$dest_dir/$name")"
+    if is_copy_not_link "${item#$DOTFILES_DIR/}"; then
+      keep_as_copy "$item" "$dest"
+      continue
+    fi
     if [ -d "$item" ]; then
       [ -d "$dest" ] || run mkdir -p "$dest"
       walk "$item" "$dest"
@@ -173,6 +212,6 @@ while IFS= read -r root; do
 done <<< "$(printf '%s' "$prune_roots" | sort -u)"
 
 log ""
-log "Done: $created created, $relinked repointed, $removed removed, $ignored ignored."
+log "Done: $created created, $relinked repointed, $removed removed, $converted copied, $ignored ignored."
 [ "$DRY_RUN" -eq 1 ] && log "Re-run without --dry-run to apply."
 exit 0
