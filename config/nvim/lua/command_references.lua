@@ -4,10 +4,12 @@
 
 local function create_popup_buffer(content, title)
   local buf = vim.api.nvim_create_buf(false, true)
+  -- Size to the content, but never taller than the window can show.
+  local height = math.min(#content, vim.o.lines - 10)
   local win = vim.api.nvim_open_win(buf, true, {
     relative = "editor",
     width = 60,
-    height = 30,
+    height = height,
     row = 5,
     col = math.floor((vim.o.columns - 60) / 2),
     style = "minimal",
@@ -46,6 +48,7 @@ local function create_main_menu()
     "4. File Navigation",
     "5. Tmux Integration",
     "6. General Commands",
+    "7. C# / .NET",
     "",
     "Press number to view category",
     "Press 'q' to close",
@@ -67,6 +70,7 @@ local function create_main_menu()
   set_keymap('4', ':lua require("command_references").show_navigation_commands()<CR>')
   set_keymap('5', ':lua require("command_references").show_tmux_commands()<CR>')
   set_keymap('6', ':lua require("command_references").show_general_commands()<CR>')
+  set_keymap('7', ':lua require("command_references").show_csharp_commands()<CR>')
   
   -- Enter key mapping based on cursor position
   set_keymap('<CR>', ':lua require("command_references").handle_enter()<CR>')
@@ -93,6 +97,8 @@ local function handle_enter()
     require("command_references").show_tmux_commands()
   elseif line_str == "6. General Commands" then
     require("command_references").show_general_commands()
+  elseif line_str == "7. C# / .NET" then
+    require("command_references").show_csharp_commands()
   end
 end
 
@@ -102,28 +108,26 @@ local function show_rails_commands()
     "=== Rails Development Commands ===",
     "",
     "Rails Navigation:",
-    "  <leader>ram   - Jump to model",
-    "  <leader>rac   - Jump to controller",
-    "  <leader>rav   - Jump to view",
-    "  <leader>rah   - Jump to helper",
-    "  <leader>raj   - Jump to JavaScript",
-    "  <leader>ras   - Jump to stylesheet",
-    "  <leader>rat   - Jump to test",
-    "  <leader>ral   - Jump to layout",
-    "  <leader>rai   - Jump to initializer",
-    "",
-    "Rails Generation:",
-    "  <leader>rag   - Generate Rails code",
-    "  <leader>rad   - Destroy Rails code",
-    "  <leader>rap   - Preview Rails code",
-    "  <leader>rax   - Run Rails runner",
-    "  <leader>rak   - Run Rake task",
+    "  <leader>rm    - Jump to model",
+    "  <leader>rc    - Jump to controller",
+    "  <leader>rv    - Jump to view",
+    "  <leader>rh    - Jump to helper",
+    "  <leader>ra    - Jump to mailer",
+    "  <leader>rj    - Jump to job",
+    "  <leader>rs    - Jump to spec",
+    "  <leader>rg    - Jump to migration",
+    "  <leader>rf    - Jump to fixture",
+    "  <leader>rl    - Jump to locale",
+    "  <leader>rC    - Jump to config",
     "",
     "RSpec Commands:",
     "  <leader>t     - Run current spec file",
     "  <leader>s     - Run nearest spec",
     "  <leader>l     - Run last spec",
     "  <leader>a     - Run all specs",
+    "",
+    "RuboCop:",
+    "  <leader>ru    - Run RuboCop on current file",
     "",
     "Press 'q' to close",
   }
@@ -139,7 +143,8 @@ local function show_lsp_commands()
     "  <leader>cl    - Refresh Code Lens",
     "  <leader>rcl   - Run Code Lens",
     "  <leader>rn    - Rename symbol",
-    "  <leader>ca    - Show code actions",
+    "  <leader>lc    - Show code actions",
+    "  <leader>la    - Code actions (visual mode)",
     "",
     "Navigation:",
     "  gd            - Go to definition",
@@ -148,7 +153,8 @@ local function show_lsp_commands()
     "  gy            - Go to type definition",
     "",
     "Documentation:",
-    "  K             - Show hover information",
+    "  <leader>ha    - Show hover information",
+    "  <leader>lh    - Show hover information",
     "  <leader>k     - Show signature help",
     "  <leader>ds    - Show document symbols",
     "  <leader>ws    - Search workspace symbols",
@@ -205,13 +211,23 @@ local function show_tmux_commands()
     "=== Tmux Integration Commands ===",
     "",
     "Runner Management:",
-    "  <leader>rr    - Resize runner",
     "  <leader>or    - Open runner",
+    "  <leader>nr    - Open runner (horizontal, 30%)",
+    "  <leader>kr    - Kill runner",
+    "  <leader>fr    - Focus runner",
+    "  <leader>ror   - Reorient/resize runner",
+    "  <leader>dr    - Detach runner",
     "  <leader>ar    - Reattach runner",
-    "  <leader>nr    - Open new runner",
+    "  <leader>cr    - Clear runner",
+    "",
+    "Attach to Pane:",
+    "  <leader>ap    - Attach to pane",
+    "  <leader>va    - Attach to pane (VTR default)",
     "",
     "Command Execution:",
     "  <leader>sc    - Send command to runner",
+    "  <leader>sl    - Send lines to runner",
+    "  <leader>sf    - Send file to runner",
     "  <leader>fc    - Flush command",
     "",
     "Press 'q' to close",
@@ -225,7 +241,7 @@ local function show_general_commands()
     "",
     "Configuration:",
     "  <leader>r     - Reload Neovim config",
-    "  <leader>ra    - Reload config in all windows",
+    "  <leader>R     - Reload config in all windows",
     "",
     "Search:",
     "  <leader>h     - Clear search highlights",
@@ -242,6 +258,54 @@ local function show_general_commands()
   create_popup_buffer(content, "General Commands")
 end
 
+local function show_csharp_commands()
+  local content = {
+    "=== C# / .NET Commands ===",
+    "",
+    "These are buffer-local to .cs files and",
+    "come from the Roslyn language server.",
+    "",
+    "Build & Run (via tmux runner):",
+    "  <leader>dnr   - dotnet run this project",
+    "  <leader>dnt   - dotnet test this project",
+    "  <leader>dnb   - dotnet build this project",
+    "",
+    "Navigation:",
+    "  gd            - Go to definition",
+    "  gi            - Go to implementation",
+    "  gy            - Go to type definition",
+    "  gr            - Show references",
+    "",
+    "Code Actions:",
+    "  <leader>lc    - Show code actions",
+    "  <leader>la    - Code actions (visual mode)",
+    "  <leader>rn    - Rename symbol",
+    "  <leader>f     - Format buffer",
+    "",
+    "Documentation:",
+    "  <leader>ha    - Show hover information",
+    "  <leader>lh    - Show hover information",
+    "  <leader>k     - Show signature help",
+    "  <leader>ds    - Show document symbols",
+    "  <leader>ws    - Search workspace symbols",
+    "",
+    "Diagnostics:",
+    "  <leader>de    - Diagnostics for current line",
+    "  <leader>ld    - Show all diagnostics",
+    "  [d            - Go to previous diagnostic",
+    "  ]d            - Go to next diagnostic",
+    "",
+    "Server Commands:",
+    "  :Roslyn target - Switch between solutions",
+    "  :LspRestart    - Restart the language server",
+    "  :Mason         - Manage/update the server",
+    "  :checkhealth vim.lsp - Verify attachment",
+    "",
+    "Press 'q' to close",
+  }
+  create_popup_buffer(content, "C# / .NET Commands")
+end
+
 -- Create a keybinding to show the main menu
 vim.api.nvim_set_keymap('n', '<leader>cm', ':lua require("command_references").create_main_menu()<CR>', { noremap = true, silent = true })
 
@@ -253,5 +317,6 @@ return {
   show_navigation_commands = show_navigation_commands,
   show_tmux_commands = show_tmux_commands,
   show_general_commands = show_general_commands,
+  show_csharp_commands = show_csharp_commands,
   handle_enter = handle_enter
-} 
+}
