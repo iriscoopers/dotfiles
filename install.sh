@@ -16,37 +16,12 @@ fi
 source $HOME/.zshrc
 
 echo "Create symlinks\n\n"
-rm $HOME/.zshrc
 
-FOLDERS="ack,shell,tmux,vim"
-
-DOT_FILES=$HOME/dotfiles
-
-for folder in $(echo $FOLDERS | sed "s/,/ /g") # Regex: replace ',' with a space
-do
-  ln -s ~/dotfiles/$folder/.* $HOME
-done
-
-# Special handling for Neovim config
-# Ensure the .config/nvim directory exists
-mkdir -p $HOME/.config/nvim
-mkdir -p $HOME/.config/nvim/lua
-
-# Create symlink for Neovim config
-ln -s $DOT_FILES/config/nvim/init.lua $HOME/.config/nvim/init.lua
-ln -s $DOT_FILES/config/nvim/plugins.vim $HOME/.config/nvim/plugins.vim
-ln -s $DOT_FILES/config/nvim/lua/* $HOME/.config/nvim/lua/
-ln -s $DOT_FILES/config/nvim/after $HOME/.config/nvim/after
-
-# Claude Code config
-mkdir -p $HOME/.claude
-ln -s $DOT_FILES/claude/statusline.sh $HOME/.claude/statusline.sh
-
-# Copy and symlink git stuff
-cp ~/dotfiles/git/.gitconfig ~
-
-ln -s ~/dotfiles/git/.gitignore $HOME
-ln -s ~/dotfiles/git/git_template $HOME/.git_template
+# All symlinking lives in scripts/update.sh, which is also safe to re-run later
+# to pick up new files and drop obsolete ones. Any .zshrc oh-my-zsh just wrote
+# is moved aside to .zshrc.bak by that script.
+DOT_FILES="${0:A:h}"
+"$DOT_FILES/scripts/update.sh"
 
 echo "Setting global gitignore\n\n"
 git config --global core.excludesfile ~/.gitignore
