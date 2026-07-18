@@ -50,9 +50,6 @@ call plug#begin()
   " Git integration
   Plug 'tpope/vim-fugitive'
 
-  " AI
-  Plug 'github/copilot.vim'        " GitHub Copilot inline suggestions
-
   " Advanced text editing
   Plug 'tpope/vim-surround'        " Surroundings manipulation
   Plug 'tpope/vim-repeat'          " Enhanced . repeat

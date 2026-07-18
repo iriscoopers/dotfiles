@@ -43,10 +43,9 @@ local function create_main_menu()
     "1. Rails Development",
     "2. LSP Commands",
     "3. Diagnostics",
-    "4. Copilot Chat",
-    "5. File Navigation",
-    "6. Tmux Integration",
-    "7. General Commands",
+    "4. File Navigation",
+    "5. Tmux Integration",
+    "6. General Commands",
     "",
     "Press number to view category",
     "Press 'q' to close",
@@ -65,10 +64,9 @@ local function create_main_menu()
   set_keymap('1', ':lua require("command_references").show_rails_commands()<CR>')
   set_keymap('2', ':lua require("command_references").show_lsp_commands()<CR>')
   set_keymap('3', ':lua require("command_references").show_diagnostics_commands()<CR>')
-  set_keymap('4', ':lua require("command_references").show_copilot_commands()<CR>')
-  set_keymap('5', ':lua require("command_references").show_navigation_commands()<CR>')
-  set_keymap('6', ':lua require("command_references").show_tmux_commands()<CR>')
-  set_keymap('7', ':lua require("command_references").show_general_commands()<CR>')
+  set_keymap('4', ':lua require("command_references").show_navigation_commands()<CR>')
+  set_keymap('5', ':lua require("command_references").show_tmux_commands()<CR>')
+  set_keymap('6', ':lua require("command_references").show_general_commands()<CR>')
   
   -- Enter key mapping based on cursor position
   set_keymap('<CR>', ':lua require("command_references").handle_enter()<CR>')
@@ -89,13 +87,11 @@ local function handle_enter()
     require("command_references").show_lsp_commands()
   elseif line_str == "3. Diagnostics" then
     require("command_references").show_diagnostics_commands()
-  elseif line_str == "4. Copilot Chat" then
-    require("command_references").show_copilot_commands()
-  elseif line_str == "5. File Navigation" then
+  elseif line_str == "4. File Navigation" then
     require("command_references").show_navigation_commands()
-  elseif line_str == "6. Tmux Integration" then
+  elseif line_str == "5. Tmux Integration" then
     require("command_references").show_tmux_commands()
-  elseif line_str == "7. General Commands" then
+  elseif line_str == "6. General Commands" then
     require("command_references").show_general_commands()
   end
 end
@@ -189,29 +185,6 @@ local function show_diagnostics_commands()
   create_popup_buffer(content, "Diagnostics Commands")
 end
 
-local function show_copilot_commands()
-  local content = {
-    "=== Copilot Chat Commands ===",
-    "",
-    "Chat Interface:",
-    "  <leader>cc    - Toggle Copilot Chat",
-    "",
-    "Code Actions:",
-    "  <leader>ce    - Explain code",
-    "  <leader>cf    - Fix code",
-    "  <leader>co    - Optimize code",
-    "  <leader>cd    - Document code",
-    "",
-    "Rails Specific:",
-    "  <leader>cr    - Rails best practices",
-    "  <leader>cs    - Generate RSpec tests",
-    "  <leader>cb    - Fix Rubocop issues",
-    "",
-    "Press 'q' to close",
-  }
-  create_popup_buffer(content, "Copilot Commands")
-end
-
 local function show_navigation_commands()
   local content = {
     "=== File Navigation Commands ===",
@@ -277,7 +250,6 @@ return {
   show_rails_commands = show_rails_commands,
   show_lsp_commands = show_lsp_commands,
   show_diagnostics_commands = show_diagnostics_commands,
-  show_copilot_commands = show_copilot_commands,
   show_navigation_commands = show_navigation_commands,
   show_tmux_commands = show_tmux_commands,
   show_general_commands = show_general_commands,
