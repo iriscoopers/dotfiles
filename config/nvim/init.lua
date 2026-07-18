@@ -64,8 +64,9 @@ vim.opt.clipboard = 'unnamedplus'        -- Use the clipboard for all operations
 vim.opt.inccommand = 'split'             -- Preview substitutions live, as you type!
 vim.opt.colorcolumn = "100"              -- Highlight column at 100 characters
 vim.opt.rtp:append("/usr/local/opt/fzf") -- Add fzf to runtime path
-vim.opt.foldmethod = "expr"              -- Fold based on indent level
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- Use treesitter for folding
+-- Treesitter folding is set per-filetype in lua/treesitter_config.lua.
+-- nvim_treesitter#foldexpr() belonged to the old nvim-treesitter branch and no
+-- longer exists; the native equivalent is v:lua.vim.treesitter.foldexpr().
 vim.opt.foldlevel = 99                   -- Open all folds by default
 vim.opt.ignorecase = true                -- Case-insensitive search
 vim.opt.smartcase = true                 -- Override ignorecase if search pattern has uppercase
