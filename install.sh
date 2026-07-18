@@ -23,6 +23,15 @@ echo "Create symlinks\n\n"
 DOT_FILES="${0:A:h}"
 "$DOT_FILES/scripts/update.sh"
 
+# .gitconfig is copied rather than symlinked so machine-local settings (user
+# email, signing keys) never end up as changes in the repo. update.sh knows to
+# leave it alone.
+if [[ -f $HOME/.gitconfig ]]; then
+  echo "Keeping existing ~/.gitconfig\n\n"
+else
+  cp "$DOT_FILES/git/.gitconfig" $HOME
+fi
+
 echo "Setting global gitignore\n\n"
 git config --global core.excludesfile ~/.gitignore
 
