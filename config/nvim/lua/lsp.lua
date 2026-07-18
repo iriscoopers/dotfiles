@@ -1,6 +1,7 @@
--- Protected call to require lspconfig
-local lspconfig_ok, lspconfig = pcall(require, 'lspconfig')
-if not lspconfig_ok then
+-- Server configs come from nvim-lspconfig's lsp/*.lua files on the runtimepath,
+-- which vim.lsp.config extends. The old require('lspconfig') framework is
+-- deprecated and is removed in nvim-lspconfig v3.
+if vim.fn.isdirectory(vim.fn.stdpath('data') .. '/plugged/nvim-lspconfig') == 0 then
   return
 end
 
@@ -137,7 +138,7 @@ local ruby_lsp_error_handler = function(err, result, ctx, config)
   vim.lsp.handlers["window/showMessage"](err, result, ctx, config)
 end
 
-lspconfig.ruby_lsp.setup({
+vim.lsp.config('ruby_lsp', {
   cmd = { 'ruby-lsp' },  -- The executable will handle the composed bundle setup
   on_attach = on_attach,
   handlers = {
@@ -181,6 +182,8 @@ lspconfig.ruby_lsp.setup({
     },
   },
 })
+
+vim.lsp.enable('ruby_lsp')
 
 -- Setup diagnostics display
 vim.diagnostic.config({
