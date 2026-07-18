@@ -34,6 +34,10 @@ call plug#begin()
   Plug 'L3MON4D3/LuaSnip'          " Snippet engine
   Plug 'saadparwaiz1/cmp_luasnip'  " Snippet completions
 
+  " C# / .NET
+  Plug 'mason-org/mason.nvim'      " Installs the Roslyn language server
+  Plug 'seblyng/roslyn.nvim'       " C# LSP; only attaches to .cs buffers
+
   " Ruby/Rails
   Plug 'tpope/vim-rails'
   Plug 'vim-ruby/vim-ruby'

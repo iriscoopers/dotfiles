@@ -5,7 +5,7 @@ if not config_ok then
 end
 
 config.setup({
-  ensure_installed = { 'ruby', 'javascript', 'sql', 'yaml', 'json' }, -- or "all"
+  ensure_installed = { 'ruby', 'c_sharp', 'embedded_template', 'javascript', 'sql', 'yaml', 'json' }, -- or "all"
   highlight = {
     enable = true,
     disable = { 'ruby' }, -- list of language that will be disabled

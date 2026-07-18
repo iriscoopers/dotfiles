@@ -36,6 +36,7 @@ mkdir -p $HOME/.config/nvim/lua
 ln -s $DOT_FILES/config/nvim/init.lua $HOME/.config/nvim/init.lua
 ln -s $DOT_FILES/config/nvim/plugins.vim $HOME/.config/nvim/plugins.vim
 ln -s $DOT_FILES/config/nvim/lua/* $HOME/.config/nvim/lua/
+ln -s $DOT_FILES/config/nvim/after $HOME/.config/nvim/after
 
 # Claude Code config
 mkdir -p $HOME/.claude
@@ -55,6 +56,9 @@ brew install cask
 
 echo "Installing packages\n\n"
 brew install ruby rbenv vim nvim tmux fzf ripgrep
+
+# .NET SDK for C# development (Roslyn LSP requires `dotnet` on PATH)
+brew install dotnet
 
 # Reinstantiate the shell to load changes
 source $HOME/.zshrc

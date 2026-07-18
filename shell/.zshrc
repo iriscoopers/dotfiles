@@ -108,6 +108,11 @@ export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+# .NET / C# — Homebrew installs the SDK outside the default search path, so the
+# Roslyn language server can't find the runtime without DOTNET_ROOT.
+export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
+export PATH="$PATH:$HOME/.dotnet/tools"
+
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
 export PATH="$HOME/.local/bin:$PATH"
