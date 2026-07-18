@@ -47,6 +47,9 @@ call plug#begin()
   Plug 'ngmy/vim-rubocop'          " Rubocop integration
   Plug 'thoughtbot/vim-rspec'      " RSpec integration
 
+  " HTTP client
+  Plug 'mistweaverco/kulala.nvim'
+
   " Tree-sitter
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'

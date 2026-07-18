@@ -45,7 +45,12 @@ EXCLUDE_RE='^(\.DS_Store|\.git|.*\.itermcolors|.*\.itermkeymap|.*iterm.*\.json)$
 # Paths (relative to the repo) that are copied by install.sh rather than
 # symlinked, so machine-local edits stay out of the repo. If a previous run
 # symlinked one of these, it is converted back to a real copy.
-COPY_NOT_LINK="git/.gitconfig"
+#
+# git_template/HEAD must be a real file: git refuses to clone when the template
+# directory's HEAD is a symlink, failing with "fatal: --stdin requires a git
+# repository" on every clone on the machine.
+COPY_NOT_LINK="git/.gitconfig
+git/git_template/HEAD"
 
 created=0; relinked=0; removed=0; ignored=0; converted=0
 desired=""       # newline separated destination paths we want to exist

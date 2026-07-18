@@ -33,6 +33,7 @@ require('treesitter_config')
 require('cmp_config')
 require('lsp')
 require('csharp')
+require('kulala_config')
 require('command_references')
 -- Load rails_config last to ensure it doesn't override other settings
 require('rails_config')

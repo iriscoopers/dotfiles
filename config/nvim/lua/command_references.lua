@@ -49,6 +49,7 @@ local function create_main_menu()
     "5. Tmux Integration",
     "6. General Commands",
     "7. C# / .NET",
+    "8. HTTP (kulala)",
     "",
     "Press number to view category",
     "Press 'q' to close",
@@ -71,6 +72,7 @@ local function create_main_menu()
   set_keymap('5', ':lua require("command_references").show_tmux_commands()<CR>')
   set_keymap('6', ':lua require("command_references").show_general_commands()<CR>')
   set_keymap('7', ':lua require("command_references").show_csharp_commands()<CR>')
+  set_keymap('8', ':lua require("command_references").show_http_commands()<CR>')
   
   -- Enter key mapping based on cursor position
   set_keymap('<CR>', ':lua require("command_references").handle_enter()<CR>')
@@ -99,6 +101,8 @@ local function handle_enter()
     require("command_references").show_general_commands()
   elseif line_str == "7. C# / .NET" then
     require("command_references").show_csharp_commands()
+  elseif line_str == "8. HTTP (kulala)" then
+    require("command_references").show_http_commands()
   end
 end
 
@@ -307,6 +311,37 @@ local function show_csharp_commands()
   create_popup_buffer(content, "C# / .NET Commands")
 end
 
+local function show_http_commands()
+  local content = {
+    "=== HTTP Commands (kulala) ===",
+    "",
+    "Written in .http / .rest files. All keys",
+    "except the scratchpad are buffer-local.",
+    "",
+    "Requests:",
+    "  <leader>Hs    - Send request under cursor",
+    "  <leader>Ha    - Send all requests in file",
+    "  <leader>Hr    - Replay last request",
+    "  <leader>Hi    - Inspect current request",
+    "  <leader>Hc    - Copy request as curl",
+    "",
+    "Navigation:",
+    "  <leader>Hn    - Next request",
+    "  <leader>Hp    - Previous request",
+    "  <leader>Ht    - Toggle body/headers view",
+    "  <leader>Hq    - Close kulala windows",
+    "",
+    "Scratchpad (works anywhere):",
+    "  <leader>Hb    - Open kulala scratchpad",
+    "",
+    "Note: <leader>H, not <leader>h -- the",
+    "latter is :nohlsearch.",
+    "",
+    "Press 'q' to close",
+  }
+  create_popup_buffer(content, "HTTP Commands")
+end
+
 -- Create a keybinding to show the main menu
 vim.api.nvim_set_keymap('n', '<leader>cm', ':lua require("command_references").create_main_menu()<CR>', { noremap = true, silent = true })
 
@@ -319,5 +354,6 @@ return {
   show_tmux_commands = show_tmux_commands,
   show_general_commands = show_general_commands,
   show_csharp_commands = show_csharp_commands,
+  show_http_commands = show_http_commands,
   handle_enter = handle_enter
 }
