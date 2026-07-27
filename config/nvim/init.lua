@@ -25,6 +25,13 @@ vim.api.nvim_create_autocmd('VimEnter', {
   end
 })
 
+-- Default border for floating windows that don't ask for their own: LSP hover,
+-- signature help, diagnostics. Plugins read this during setup, so it has to be
+-- set before the requires below -- nvim-cmp in particular resolves it once, and
+-- its cmp.config.window.bordered() helper falls back to border = 'none' when
+-- winborder is empty, which is why completion popups had no outline at all.
+vim.o.winborder = 'rounded'
+
 -- Load configurations
 require('theme')
 require('mappings')

@@ -76,9 +76,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
     map('n', 'gy', vim.lsp.buf.type_definition, 'Go to type definition')
     map('n', 'gr', '<Cmd>Telescope lsp_references<CR>', 'References')
 
-    map('n', '<leader>ha', vim.lsp.buf.hover, 'Hover')
-    map('n', '<leader>lh', vim.lsp.buf.hover, 'Hover')
-    map('n', '<leader>k', vim.lsp.buf.signature_help, 'Signature help')
+    -- Titled, width-capped floats shared with the Ruby maps; see util/float.lua.
+    local float = require('util.float')
+    map('n', '<leader>ha', float.hover, 'Hover')
+    map('n', '<leader>lh', float.hover, 'Hover')
+    map('n', '<leader>k', float.signature_help, 'Signature help')
     map('n', '<leader>rn', vim.lsp.buf.rename, 'Rename symbol')
     map('n', '<leader>lc', vim.lsp.buf.code_action, 'Code action')
     map('v', '<leader>la', vim.lsp.buf.code_action, 'Code action (range)')

@@ -63,15 +63,17 @@ local on_attach = function(client, bufnr)
 
   -- Hover Actions
   -- Shows hover information for the symbol under the cursor.
-  buf_set_keymap(bufnr, 'n', '<leader>ha', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap(bufnr, 'n', '<Leader>lh', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  -- util.float gives the window a title and a width cap; see that file for why.
+  local float = require('util.float')
+  vim.keymap.set('n', '<leader>ha', float.hover, { buffer = bufnr, silent = true, desc = 'Hover' })
+  vim.keymap.set('n', '<Leader>lh', float.hover, { buffer = bufnr, silent = true, desc = 'Hover' })
 
   -- Go to Type Definition
   -- Navigate to the type definition of the symbol under the cursor.
   buf_set_keymap(bufnr, 'n', 'gy', '<Cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
 
   -- Show Signature Help
-  buf_set_keymap(bufnr, 'n', '<leader>k', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  vim.keymap.set('n', '<leader>k', float.signature_help, { buffer = bufnr, silent = true, desc = 'Signature help' })
 
   -- Rename Symbol
   -- Rename all references to the symbol under the cursor.
