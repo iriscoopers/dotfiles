@@ -25,6 +25,7 @@ source ~/.zsh/aliases.plugin.zsh
 source ~/.zsh/github.plugin.zsh
 source ~/.zsh/gitlab.plugin.zsh
 source ~/.zsh/vim.plugin.zsh
+source ~/.zsh/rompslomp.plugin.zsh
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -115,5 +116,23 @@ export PATH="$PATH:$HOME/.dotnet/tools"
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
-export PATH="$HOME/.local/bin:$PATH"
-source /Users/iris/.safe-chain/scripts/init-posix.sh # Safe-chain Zsh initialization script
+
+# Added by CodeRabbit CLI installer
+export PATH="/Users/iriskuipers/.local/bin:$PATH"
+
+source /Users/iriskuipers/.docker/init-zsh.sh || true # Added by Docker Desktop
+alias claude-update="rm -rf ~/.nvm/versions/node/*/lib/node_modules/@anthropic-ai/.claude-code-* 2>/dev/null; npm install -g @anthropic-ai/claude-code@latest"
+source /Users/iriskuipers/.safe-chain/scripts/init-posix.sh # Safe-chain Zsh initialization script
+source /Users/iriskuipers/.config/op/plugins.sh
+# Add to ~/.zshrc, then `source ~/.zshrc`. Usage: `wt` to pick, or `wt 23352`.
+wt() {
+  local dir
+  dir="$("${ROMPSLOMP_DIR:-$HOME/projects/rompslomp}/bin/worktree-cd" "$@")" || return 1
+  cd "$dir"
+}
+
+# Launch Claude session picker in new tmux pane
+alias cn='tmux split-window -h -c "$(pwd)" claude'
+
+# Resume Claude session with built-in picker
+alias cr="claude --resume"
