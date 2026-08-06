@@ -33,7 +33,8 @@ git|$HOME
 shell|$HOME
 config|$HOME/.config
 alacritty|$HOME/.config/alacritty
-claude/statusline.sh|$HOME/.claude/statusline.sh"
+claude/statusline.sh|$HOME/.claude/statusline.sh
+claude/CLAUDE.md|$HOME/.claude/CLAUDE.md"
 
 # Destination paths that get a different name than their source.
 RENAMES="\
