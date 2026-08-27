@@ -16,3 +16,5 @@ gitlabat.tx
 #public/*
 
 **/.claude/settings.local.json
+
+**/.claude/.cc-writes/
