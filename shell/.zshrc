@@ -25,7 +25,6 @@ source ~/.zsh/aliases.plugin.zsh
 source ~/.zsh/github.plugin.zsh
 source ~/.zsh/gitlab.plugin.zsh
 source ~/.zsh/vim.plugin.zsh
-source ~/.zsh/rompslomp.plugin.zsh
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -124,11 +123,72 @@ source /Users/iriskuipers/.docker/init-zsh.sh || true # Added by Docker Desktop
 alias claude-update="rm -rf ~/.nvm/versions/node/*/lib/node_modules/@anthropic-ai/.claude-code-* 2>/dev/null; npm install -g @anthropic-ai/claude-code@latest"
 source /Users/iriskuipers/.safe-chain/scripts/init-posix.sh # Safe-chain Zsh initialization script
 source /Users/iriskuipers/.config/op/plugins.sh
-# Add to ~/.zshrc, then `source ~/.zshrc`. Usage: `wt` to pick, or `wt 23352`.
+# Jump into a git worktree.
+#
+#   wt                     prompt for the project, then for the worktree
+#   wt shevo               skip the first prompt
+#   wt shevo rest-timer    skip both when the filter matches one worktree
+#
+# `git worktree list` is the source of truth rather than a directory naming
+# convention, so this finds worktrees wherever they actually live -- both
+# ~/projects/<project>-worktrees/* and the .claude/worktrees/* directories
+# Claude Code creates inside the repo.
 wt() {
-  local dir
-  dir="$("${ROMPSLOMP_DIR:-$HOME/projects/rompslomp}/bin/worktree-cd" "$@")" || return 1
-  cd "$dir"
+  local projects_dir="${PROJECTS_DIR:-$HOME/projects}"
+  local project="$1" filter="$2" repo choice
+
+  if [[ -z "$project" ]]; then
+    local -a projects
+    for repo in "$projects_dir"/*(N/); do
+      git -C "$repo" rev-parse --git-dir &>/dev/null && projects+=("${repo:t}")
+    done
+    (( ${#projects} )) || { print -u2 "wt: no git repos under $projects_dir"; return 1 }
+
+    if (( $+commands[fzf] )); then
+      project=$(print -l -- "${projects[@]}" |
+        fzf --prompt='Project: ' --height=40% --layout=reverse) || return 1
+    else
+      print -l -- "${projects[@]}"
+      read "project?Project: " || return 1
+    fi
+  fi
+  [[ -n "$project" ]] || return 1
+
+  repo="$projects_dir/$project"
+  git -C "$repo" rev-parse --git-dir &>/dev/null || {
+    print -u2 "wt: $repo is not a git repository"
+    return 1
+  }
+
+  # "<path>\t<branch>" per line: the picker shows the branch, the cd uses the
+  # path. Bare entries have neither `branch` nor `detached` and drop out here.
+  local -a entries
+  entries=("${(@f)$(git -C "$repo" worktree list --porcelain | awk '
+    /^worktree /  { path = substr($0, 10) }
+    /^branch /    { br = substr($0, 8); sub(/^refs\/heads\//, "", br)
+                    print path "\t" br; path = ""; br = "" }
+    /^detached$/  { print path "\t(detached)"; path = "" }
+  ')}")
+  (( ${#entries} )) || { print -u2 "wt: no worktrees in $project"; return 1 }
+
+  [[ -n "$filter" ]] && entries=("${(@M)entries:#*$filter*}")
+  (( ${#entries} )) || { print -u2 "wt: no worktree matching '$filter' in $project"; return 1 }
+
+  if (( ${#entries} == 1 )); then
+    choice="${entries[1]}"
+  elif (( $+commands[fzf] )); then
+    choice=$(print -l -- "${entries[@]}" |
+      fzf --prompt='Worktree: ' --height=40% --layout=reverse \
+          --delimiter='\t' --with-nth=2) || return 1
+  else
+    local label
+    select label in "${(@)entries#*$'\t'}"; do
+      [[ -n "$label" ]] && { choice="${entries[$REPLY]}"; break }
+    done
+  fi
+
+  [[ -n "$choice" ]] || return 1
+  cd "${choice%%$'\t'*}"
 }
 
 # Launch Claude session picker in new tmux pane

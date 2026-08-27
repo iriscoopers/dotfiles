@@ -22,8 +22,5 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-# Custom plugins to ignore
-shell/.zsh/rompslomp.plugin.zsh
-
 # Claude Code local state and worktrees (not the tracked claude/ config dir)
 .claude/

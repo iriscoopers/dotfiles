@@ -157,11 +157,13 @@ let g:lightline = {
 autocmd Filetype gitcommit setlocal spell textwidth=72
 
 " Rspec
-let project = substitute(getcwd(), '^.*/', '', '')
-if project == "rompslomp"
-  let g:rspec_command = "VtrSendCommandToRunner be rspec {spec}"
-else
+" Whether to go through spring is a per-project choice, so detect the binstub
+" rather than naming the repos that do. Resolved once at startup against the
+" directory vim was opened in, same as the check this replaced.
+if filereadable('bin/spring')
   let g:rspec_command = "VtrSendCommandToRunner be spring rspec {spec}"
+else
+  let g:rspec_command = "VtrSendCommandToRunner be rspec {spec}"
 endif
 
 map <leader>t :call RunCurrentSpecFile()<cr>
@@ -238,8 +240,5 @@ nnoremap <leader>rc :Rails console<cr>
 
 " Golang
 let g:go_fmt_command = "goimports"
-
-" Gitlab Rompslomp
-let g:fugitive_gitlab_domains = ['https://gitlab.rompslomp.nl']
 
 " Github Copilot

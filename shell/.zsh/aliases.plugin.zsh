@@ -14,7 +14,7 @@ alias zshrc="nvim ~/.zshrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
 alias vimrc="nvim ~/.vimrc"
 alias gitconfig="nvim ~/.gitconfig"
-alias notes="nvim ~/projects/rompslomp_notes.md"
+alias notes="nvim ~/notes.md"
 alias til="nvim ~/blog.md"
 
 # Tmuxinator
